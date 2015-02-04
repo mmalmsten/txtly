@@ -10,19 +10,19 @@ function img($user, $myUser, $directory) {
   }
 }
 
-// Upload profile picture
+// Upload profile / header picture
 function uploadImg($directory, $user) {
-  $pageName = basename($_SERVER['PHP_SELF']);
 
   if (isset($_FILES['upload']) && $_GET['upload'] == $directory) {
     if ($_FILES['upload']['error']  ==  0) {
       $tmp = $_FILES['upload']['tmp_name'];
       $name = $_FILES['upload']['name'];
       $size = $_FILES['upload']['size'];
-      $rest = substr($name, -4);
+      //$rest = substr($name, -4);
+      $rest = strstr($name, '.');
       
       if ($size > 2097152) {
-        printf("<div class='messages'>The chosen image is  %d  bytes too big!</div>", $size - 1048576);
+        printf("<div class='messages'>The chosen image is  %d  bytes too big!</div>", $size - 2097152);
       }
       else {
         move_uploaded_file($tmp,  "img/" . $directory . "/" . $user . $rest);
@@ -40,8 +40,8 @@ function uploadImg($directory, $user) {
     <?php endif ?>
   </div>
   <div class="uploadprofileimg upload<?php print $directory ?>">
-    <form enctype="multipart/form-data" action="<?php print $pageName ?>?name=<?php print CURRENT ?>&upload=<?php print $directory ?>" method="POST">
-      Upload an image (maximum 1Mb):
+    <form enctype="multipart/form-data" action="<?php print PAGENAME ?>?name=<?php print CURRENT ?>&upload=<?php print $directory ?>" method="POST">
+      Upload an image (maximum 2Mb):
       <input type="file" name="upload" />
       <input type="submit" class="btn btn-primary" value="Upload"  />
     </form>
@@ -49,10 +49,9 @@ function uploadImg($directory, $user) {
 <?php
 }
 
-// Show profile picture 
+// Show profile / header picture 
 function showImg($directory, $user) {
-  $pageName = basename($_SERVER['PHP_SELF']);
-  if ($pageName !== "profile.php") {
+  if (PAGENAME !== "profile.php") {
     $user = "txtly";
   }
   ?>

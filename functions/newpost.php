@@ -24,6 +24,7 @@ if (isset($_POST["newpost"])){
 		$lng = $_POST["lng"];
 		$description = $_POST["description"];
 	  	$description = (preg_replace("/[<>]/", "", $description));
+    	$description = str_replace("'", "", $description);
 
 		require 'findlocation.php';
 
@@ -47,16 +48,17 @@ if (isset($_POST["newpost"])){
 		$location = $city.", ".$country;
 	}
 
-	if ($newPost !== "") {
+	if (strlen($toTxt) < 141) {
 		// Add post
 	  	$toTxt = (preg_replace("/[<>]/", "", $newPost));
+    	$toTxt = str_replace("'", "", $toTxt);
 		$toTxt = preg_replace_callback('/(http[s]?:(\S+))/',
 			function($bitlyUrl) {
 			$login = "maddeeasyrider";
 			$appkey = "R_a835527cec7344eea3ca1de2dd2879cc";
 	        static $id = 0;
 	        $id++;
-	        return '<a href="'.get_bitly_short_url($bitlyUrl[1],$login,$appkey).'" class="aTag">'.get_bitly_short_url($bitlyUrl[1],$login,$appkey).'</a>';
+	        return '<a href="'.get_bitly_short_url($bitlyUrl[1],$login,$appkey).'" class="aTag" target="_blank">'.get_bitly_short_url($bitlyUrl[1],$login,$appkey).'</a>';
 	    }, $toTxt);
 
 		$day = date("Y-m-d H:i:s");
@@ -73,6 +75,9 @@ if (isset($_POST["newpost"])){
 		$newPost = "";
 		$location = "";
 	}
+	elseif (strlen($toTxt) > 140) {
+		print "<div class='messages'>Please, stay within the character limit...</div>";
+	}
 
 	// Upload file if a file is submitted
 	if (isset($_FILES['upload'])) {
@@ -82,8 +87,8 @@ if (isset($_POST["newpost"])){
 		  $size = $_FILES['upload']['size'];
 		  $rest = substr($name, -4);
 		  
-		  if ($size > 1048576) {
-		    printf("Filen $name är  %d  bytes för stor!", 1048576 - $size);
+		  if ($size > 2097152) {
+		    printf("Filen $name är  %d  bytes för stor!", 2097152 - $size);
 		  }
 		  else {
 		    move_uploaded_file($tmp,  "img/uploads/" . $postId . $rest);
@@ -98,10 +103,11 @@ function newPost($newPost,$location, $postId){
 	?>
 
     <div class="newpost">
-	    <form enctype="multipart/form-data" action="<?php echo PAGENAME ?>" method="post">
+	    <form enctype="multipart/form-data" action="<?php echo PAGENAME ?>?<?php print CURRENTGET ?>=<?php print CURRENT ?>" method="post">
 			<input type="text" class="form-control" name="addnewlocation" id="addnewlocation" placeholder="Location" value="<?php print $location ?>" onkeyup="findSuggestions(this.value, 'locations')" autocomplete="off">
 			<span id="locationsresult"></span>
-			<textarea name="newpost" class="form-control" placeholder="What's on your mind? Don't forget to add a #tag and maybe a @user as well!"><?php print $newPost ?></textarea>
+			<textarea id="newpost" name="newpost" class="form-control" placeholder="What's on your mind? Don't forget to add a #tag and maybe a @user as well!"><?php print $newPost ?></textarea>
+			<div id="newpostchars"></div>
 			<input type="file" name="upload" />
 			<input type="text" name="lat" id="lat" placeholder="GPS" class="gps form-control">
 			<input type="text" name="lng" id="lng" placeholder="GPS" class="gps form-control">
@@ -109,6 +115,19 @@ function newPost($newPost,$location, $postId){
 	      	<div class="clear"></div>
 		</form>
 	</div>
-
+    <script>
+	    $(document).ready(function(){
+	      $('textarea#newpost').keyup(function () {
+	        var max = 140;
+	        var len = $(this).val().length;
+	        if (len > max) {
+	          $('#newpostchars').text('! Oops, to many characters!');
+	        } else {
+	          var char = max - len;
+	          $('#newpostchars').text(char + ' characters left');
+	        }
+	      });
+	    });
+    </script>
 <?php
 }

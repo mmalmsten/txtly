@@ -15,6 +15,30 @@ define("CURRENTGET", $_POST["currentget"]);
 
 require 'info.php';
 
+include 'link.php';
+$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+mysqli_connect_errno();
+
+if (isset($_POST["followuser"]) && $_POST["followuser"] == "follow") {
+	$sql="INSERT INTO follow (follower, follows)
+	VALUES ('".MYUSER."', '".CURRENT."')"; 
+
+	if (!mysqli_query($link,$sql)) {
+	  print "Sorry, something went wrong!<br>";
+	  die('Error: ' . mysqli_error($link));
+	}
+} 
+else if (isset($_POST["followuser"]) && $_POST["followuser"] == "unfollow") {
+	$sql="DELETE FROM follow WHERE follower='".MYUSER."' AND follows='".CURRENT."'";
+
+	if (!mysqli_query($link,$sql)) {
+	  print "Sorry, something went wrong!<br>";
+	  die('Error: ' . mysqli_error($link));
+	}
+}
+
+mysqli_close($link);
+
 function follow($action) {
 	include 'link.php';
 	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
@@ -24,28 +48,10 @@ function follow($action) {
 	$allFollowers = array();
 	$number = 0;
 
-	if (isset($_POST["followuser"]) && $_POST["followuser"] == "follow") {
-		$sql="INSERT INTO follow (follower, follows)
-		VALUES ('".MYUSER."', '".CURRENT."')"; 
-
-		if (!mysqli_query($link,$sql)) {
-		  print "Sorry, something went wrong!<br>";
-		  die('Error: ' . mysqli_error($link));
-		}
-	} 
-	else if (isset($_POST["followuser"]) && $_POST["followuser"] == "unfollow") {
-		$sql="DELETE FROM follow WHERE follower='".MYUSER."' AND follows='".CURRENT."'";
-
-		if (!mysqli_query($link,$sql)) {
-		  print "Sorry, something went wrong!<br>";
-		  die('Error: ' . mysqli_error($link));
-		}
-	}
-
 	if ($action == "Followers") {
-		$followers = mysqli_query($link, "SELECT * FROM follow LEFT JOIN users ON user = follower WHERE follows='".MYUSER."' ORDER BY name");	
+		$followers = mysqli_query($link, "SELECT * FROM follow LEFT JOIN users ON user = follower WHERE follows='".CURRENT."' ORDER BY name");	
 	} else {
-		$followers = mysqli_query($link, "SELECT * FROM follow LEFT JOIN users ON user = follows WHERE follower='".MYUSER."' ORDER BY name");		
+		$followers = mysqli_query($link, "SELECT * FROM follow LEFT JOIN users ON user = follows WHERE follower='".CURRENT."' ORDER BY name");		
 	}
 
 	if ($followers) {

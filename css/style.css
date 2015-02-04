@@ -347,7 +347,20 @@ svg{
   -moz-box-shadow:    0px 0px 0px 5px rgba(0, 0, 0, 0.1);
   box-shadow:         0px 0px 0px 5px rgba(0, 0, 0, 0.1);
 }
-
+#updateuser .form-control{
+  background: #fff;
+  border: 0;
+  color: #444;
+  box-shadow: none;
+}
+#updateuser .input-group-addon{
+  background: #fff;
+  border: 0;
+  color: #444;
+}
+#updateuser textarea{
+  height:200px;
+}
 
 /* Profile page */
 

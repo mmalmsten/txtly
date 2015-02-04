@@ -4,10 +4,7 @@
 
 if (isset($_POST["drop"])){
 	$id = $_POST["drop"];
-	dropPost($id);
-}
 
-function dropPost($id){
 	include 'link.php';
 	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
 	mysqli_connect_errno();

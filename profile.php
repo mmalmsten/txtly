@@ -65,10 +65,14 @@
       
       $("#followBtn").click(function() {
         followBtn = $('input#followBtn').val();
-        alert("GO!");
+        //alert("GO!");
         $.ajaxSetup({
             beforeSend: function() {
-              //$('input#followBtn').val() = "OK!";
+              if (followBtn == "unfollow") {
+                $('input#followBtn').val("follow");
+              } else{
+                $('input#followBtn').val("unfollow");
+              }
           },
             complete: function() {
             }
@@ -83,9 +87,40 @@
             "currentget": "<?php print CURRENTGET ?>",
             },
             success: function(response) { 
+              //alert(response);
+              //console.log(response);
+            $("#followerbox").html(response);
+          }
+        });
+      });
+    });
+    $(document).ready(function(){
+      $("#updateuserbtn").click(function() {
+        alert("GO!");
+        $.ajaxSetup({
+            beforeSend: function() {
+              //$('#loadposts').fadeIn(); 
+          },
+            complete: function() {
+              //$('#loadposts').fadeOut(); 
+            }
+        });
+        $.ajax({
+            url: 'functions/updateuser.php',
+            type: 'post',
+            data: {
+            "name": $('input#name').val(),
+            "email": $('input#email').val(),
+            "user": $('input#user').val(),
+            "myuser": "<?php print MYUSER ?>",
+            "description": $('textarea#description').val(),
+            "pwd": $('input#pwd').val(),
+            "pwd1": $('input#pwd1').val()
+            },
+            success: function(response) { 
               alert(response);
               console.log(response);
-            $("#followerbox").html(response);
+            $("#updateuser").html(response);
           }
         });
       });
