@@ -43,7 +43,7 @@ function feed($pagenumber){
 		$postResult = mysqli_query($link, "SELECT * FROM posts WHERE content LIKE '%#".CURRENT."%' ORDER BY time DESC LIMIT $pagenumber, 10");
 	}
 	else if (CURRENTGET == "name"){
-		$postResult = mysqli_query($link, "SELECT * FROM posts WHERE content LIKE '%".CURRENT."%' OR user = '".CURRENT."' ORDER BY time DESC LIMIT $pagenumber, 10");
+		$postResult = mysqli_query($link, "SELECT * FROM posts WHERE content LIKE '%@".CURRENT."%' OR user = '".CURRENT."' ORDER BY time DESC LIMIT $pagenumber, 10");
 	}
 
 	// Show posts	
@@ -65,12 +65,10 @@ function feed($pagenumber){
 		}
 ?>
 
-<div class="post <?php print $class; ?>">
+<div class="post <?php print $class; ?>" id="post<?php print $postId ?>">
 	<div class="user">
 		<?php if ($user == MYUSER) { ?>
-		    <form action="<?php echo PAGENAME ?>" method="post">
-				<button type="submit" name="drop" value="<?php print $postId ?>" class="btn-clean"><i class="glyphicon glyphicon-remove"></i></button>
-			</form>
+			<button type="submit" name="drop" id="drop" value="<?php print $postId ?>" class="btn-clean"><i class="glyphicon glyphicon-remove"></i></button>
 		<?php } ?>	
 		<img src="img/profile/<?php print $user ?>.jpg" class="profilethumbnail">    
 		<span class="name"><a href="profile.php?name=<?php print $user ?>"><?php print $user ?></a></span> <span class="time"><?php print $time; ?> <a href="place.php?location=<?php print $location ?>"><?php print $location ?></a></span>
@@ -132,3 +130,32 @@ require 'functions/deletepost.php';
 $getpage = $_POST["page"];
 
 feed($getpage);
+?>
+
+<script>
+	$(document).ready(function(){
+		$("button#drop").click(function() {
+			buttonID = $(this).val();
+			alert("GO! "+buttonID);
+			$.ajaxSetup({
+			    beforeSend: function() {
+			    	//$('#loadposts').fadeIn(); 
+			 	},
+			    complete: function() {
+			    	$('#post'+buttonID).fadeOut();
+			    }
+			});
+			$.ajax({
+			    url: 'functions/deletepost.php',
+			    type: 'post',
+			    data: {
+					"drop": buttonID
+			    },
+			    success: function(response) { 
+			    	alert(response);
+			    	console.log(response);
+				}
+			});
+		});
+	});
+</script>
