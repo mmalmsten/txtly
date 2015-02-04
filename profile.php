@@ -95,8 +95,30 @@
       });
     });
     $(document).ready(function(){
+      //alert("GO!");
+      $.ajaxSetup({
+          beforeSend: function() {
+            //$('#loadposts').fadeIn(); 
+        },
+          complete: function() {
+            //$('#loadposts').fadeOut(); 
+          }
+      });
+      $.ajax({
+          url: 'functions/updateuser.php',
+          type: 'post',
+          data: {
+          "user": "<?php print CURRENT ?>",
+          "action": "none",
+          },
+          success: function(response) { 
+            //alert(response);
+            //console.log(response);
+          $("#updateuser").html(response);
+        }
+      });
       $("#updateuserbtn").click(function() {
-        alert("GO!");
+        //alert("GO!");
         $.ajaxSetup({
             beforeSend: function() {
               //$('#loadposts').fadeIn(); 
@@ -109,17 +131,12 @@
             url: 'functions/updateuser.php',
             type: 'post',
             data: {
-            "name": $('input#name').val(),
-            "email": $('input#email').val(),
-            "user": $('input#user').val(),
-            "myuser": "<?php print MYUSER ?>",
-            "description": $('textarea#description').val(),
-            "pwd": $('input#pwd').val(),
-            "pwd1": $('input#pwd1').val()
+            "user": "<?php print CURRENT ?>",
+            "action": "update",
             },
             success: function(response) { 
-              alert(response);
-              console.log(response);
+              //alert(response);
+              //console.log(response);
             $("#updateuser").html(response);
           }
         });

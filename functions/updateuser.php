@@ -8,27 +8,30 @@
   }
 
   define("MYUSER", $_SESSION['user']);
-  if (isset($_POST["user"])) { define("CURRENT", $_POST["user"]); }
+  define("CURRENT", $_POST["user"]);
 
   include 'link.php';
   $link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
   mysqli_connect_errno();
 
-  if (isset($_POST['name'])) {
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $user = $_POST['user'];
-    $description = $_POST['description'];
-    $description = str_replace("'", "", $description);
-    
-    /*if ($_POST['pwd'] !== "") {
-      $pwd = md5($_POST['pwd']);
-      $pwd1 = md5($_POST['pwd1']);
-    }*/
+  $postResult = mysqli_query($link, "SELECT * FROM users WHERE user = '".CURRENT."'");
 
+  if ($postResult) {
+    while ($row = mysqli_fetch_assoc($postResult)) {
+      $name = $row['name'];
+      $email = $row['email'];
+      $user = $row['user'];
+      $description = $row['description'];
+      $description = str_replace("'", "", $description);
+      //$pwd = $row['pass'];
+    }
+    mysqli_free_result($postResult);
+  }
+  
+  if ($_POST['action'] == "update") {
     if (/*$pwd === $pwd && */filter_var($email, FILTER_VALIDATE_EMAIL)){
       $updateUser=" UPDATE users 
-                    SET name='$name', email='$email', description='$description', pass='$pwd'
+                    SET name='$name', email='$email', description='$description'
                     WHERE user='$user'";
       if (!mysqli_query($link,$updateUser)) {
         die('Error: ' . mysqli_error($link));
@@ -44,19 +47,7 @@
       $alert = "<div class='messages'>Oops! It seems like there's something wrong...</div>";
     } 
   }
-
-  $postResult = mysqli_query($link, "SELECT * FROM users WHERE user = '".CURRENT."'");
-
-  if ($postResult) {
-    while ($row = mysqli_fetch_assoc($postResult)) {
-      $name = $row['name'];
-      $email = $row['email'];
-      $user = $row['user'];
-      $description = $row['description'];
-      //$pwd = $row['pass'];
-    }
-    mysqli_free_result($postResult);
-  }
+  mysqli_close($link);
 ?>
 
     <?php if (CURRENT == MYUSER): ?>    
@@ -88,6 +79,7 @@
       <div class="clear"></div>
       <p><?php if (isset($alert)) {print $alert;} ?></p>
     <?php endif ?>
+
     <?php if (CURRENT !== MYUSER): ?>    
       <p><?php print $description ?></p>
       <div class="clear"></div>
