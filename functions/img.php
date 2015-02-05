@@ -1,8 +1,8 @@
 <?php
 
 // Run function depending on if user has the right to change profile picture or not.
-function img($user, $myUser, $directory) {
-  if ($user !== $myUser){
+function img($user, $directory) {
+  if ($user !== MYUSER || $directory == "thumbnail"){
     showImg($directory, $user);
   }
   else {
@@ -39,7 +39,7 @@ function uploadImg($directory, $user) {
       <h1><?php print $user ?></h1>      
     <?php endif ?>
   </div>
-  <div class="uploadprofileimg upload<?php print $directory ?>">
+  <div class="sidebar uploadprofileimg upload<?php print $directory ?>">
     <form enctype="multipart/form-data" action="<?php print PAGENAME ?>?name=<?php print CURRENT ?>&upload=<?php print $directory ?>" method="POST">
       Upload an image (maximum 2Mb):
       <input type="file" name="upload" />
@@ -51,12 +51,14 @@ function uploadImg($directory, $user) {
 
 // Show profile / header picture 
 function showImg($directory, $user) {
-  if (PAGENAME == "profile.php"): ?>
-  <div class="<?php print $directory ?>img" style="background-image: url(img/<?php print $directory ?>/<?php print $user ?>.jpg);">
+  $directoryName = $directory;
+  if ($directory == "thumbnail") {
+    $directoryName = "profile";
+  }
+?>
+  <div class="<?php print $directory ?>img" style="background-image: url(img/<?php print $directoryName ?>/<?php print $user ?>.jpg);">
     <?php if ($directory == "header"): ?>
       <h1><?php print $user ?></h1>      
     <?php endif ?>
   </div>
-<?php endif;
-}
-?>
+<?php } ?>

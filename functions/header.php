@@ -157,7 +157,7 @@ require 'functions/img.php';
       </div>
     </nav>
  
-    <?php img(CURRENT, MYUSER, "header") ?>
+    <div class="hidden-xs"><?php img(CURRENT, "header") ?></div>
     <div class="wrapper">
       <div class="col-sm-3">
         <?php require 'sidebar.php'; ?>

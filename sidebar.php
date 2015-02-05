@@ -85,12 +85,11 @@ function followBtn() {
       <div id="locationinfo"></div>
   </div>
 </div>
-<?php if (CURRENTGET == "name"): ?>
+<?php if (PAGENAME == "profile.php"): ?>
+  <?php img(CURRENT, "profile") ?>
   <div class="sidebar">
-    <?php img(CURRENT, MYUSER, "profile") ?>
     <h4><a href="profile.php?name=<?php print userInfo(CURRENT, 'user') ?>"><?php print userInfo(CURRENT, 'name') ?></a></h4>
     <div id="updateuser">
-<!--      <div id="locationinfo"></div> -->
     </div>
     <?php if (CURRENT == MYUSER): ?>
       <button class="btn btn-primary" id="updateuserbtn">Save changes</button>      
@@ -101,14 +100,6 @@ function followBtn() {
       followBtn();
     } ?>
     <div id="followerbox"></div>
-  </div>
-<?php endif ?>
-<?php if (CURRENT !== "madde"): ?>
-  <div class="sidebar">
-    <h5><a href="profile.php?name=<?php print UserInfo(MYUSER, 'user') ?>">
-      <img src="img/profile/<?php print MYUSER ?>.jpg" alt="" class="profilethumbnail">
-      <?php print UserInfo(MYUSER, 'name') ?>
-    </a></h5>
   </div>
 <?php endif ?>
 <div class="sidebar hidden-xs">

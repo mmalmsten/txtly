@@ -70,7 +70,7 @@ function feed($pagenumber){
 		<?php if ($user == MYUSER) { ?>
 			<button type="submit" name="drop" id="drop" value="<?php print $postId ?>" class="btn-clean"><i class="glyphicon glyphicon-remove"></i></button>
 		<?php } ?>	
-		<img src="img/profile/<?php print $user ?>.jpg" class="profilethumbnail">    
+		<?php img($user, "thumbnail") ?>
 		<span class="name"><a href="profile.php?name=<?php print $user ?>"><?php print userInfo($user, 'name') ?></a></span> <span class="time"><?php print $time; ?> <a href="place.php?location=<?php print $location ?>"><?php print $location ?></a></span>
 	</div>
 	<p><?php print $content ?></p>
@@ -125,7 +125,7 @@ function feed($pagenumber){
 }
 
 require 'functions/info.php';
-require 'functions/deletepost.php';
+require 'functions/img.php';
 
 $getpage = $_POST["page"];
 
