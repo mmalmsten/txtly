@@ -19,10 +19,10 @@ function showSearch($searchFor){
   mysqli_connect_errno();
 
   if ($searchFor == "users") {
-    $postResult = mysqli_query($link, "SELECT * FROM users WHERE user LIKE '%".CURRENT."%' ORDER BY name");
+    $postResult = mysqli_query($link, "SELECT * FROM users WHERE user LIKE '".CURRENT."%' OR name LIKE '".CURRENT."%' ORDER BY name");
   }
   else if ($searchFor == "locations") {
-    $postResult = mysqli_query($link, "SELECT * FROM locations WHERE name LIKE '%".CURRENT."%' ORDER BY name");
+    $postResult = mysqli_query($link, "SELECT * FROM locations WHERE name LIKE '".CURRENT."%' ORDER BY name");
   }
 
   if ($postResult) {

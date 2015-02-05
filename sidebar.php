@@ -90,11 +90,11 @@ function followBtn() {
     <?php img(CURRENT, MYUSER, "profile") ?>
     <h4><a href="profile.php?name=<?php print userInfo(CURRENT, 'user') ?>"><?php print userInfo(CURRENT, 'name') ?></a></h4>
     <div id="updateuser">
-      <?php if (CURRENT == MYUSER): ?>
-        <button class="btn btn-primary" id="updateuserbtn">Save changes</button>
-      <?php endif ?>
-      <div id="locationinfo"></div>
+<!--      <div id="locationinfo"></div> -->
     </div>
+    <?php if (CURRENT == MYUSER): ?>
+      <button class="btn btn-primary" id="updateuserbtn">Save changes</button>      
+    <?php endif ?>
   </div>
   <div class="sidebar">
     <?php if (CURRENT !== MYUSER) {

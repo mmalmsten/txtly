@@ -48,19 +48,19 @@ if (isset($_POST["newpost"])){
 		$location = $city.", ".$country;
 	}
 
-	if (strlen($toTxt) < 141) {
-		// Add post
-	  	$toTxt = (preg_replace("/[<>]/", "", $newPost));
-    	$toTxt = str_replace("'", "", $toTxt);
-		$toTxt = preg_replace_callback('/(http[s]?:(\S+))/',
-			function($bitlyUrl) {
-			$login = "maddeeasyrider";
-			$appkey = "R_a835527cec7344eea3ca1de2dd2879cc";
-	        static $id = 0;
-	        $id++;
-	        return '<a href="'.get_bitly_short_url($bitlyUrl[1],$login,$appkey).'" class="aTag" target="_blank">'.get_bitly_short_url($bitlyUrl[1],$login,$appkey).'</a>';
-	    }, $toTxt);
+  	$toTxt = (preg_replace("/[<>]/", "", $newPost));
+	$toTxt = str_replace("'", "", $toTxt);
+	$toTxt = preg_replace_callback('/(http[s]?:(\S+))/',
+		function($bitlyUrl) {
+		$login = "maddeeasyrider";
+		$appkey = "R_a835527cec7344eea3ca1de2dd2879cc";
+        static $id = 0;
+        $id++;
+        return '<a href="'.get_bitly_short_url($bitlyUrl[1],$login,$appkey).'" class="aTag" target="_blank">'.get_bitly_short_url($bitlyUrl[1],$login,$appkey).'</a>';
+    }, $toTxt);
 
+	// Add post
+	if (strlen($toTxt) < 141) {
 		$day = date("Y-m-d H:i:s");
 		$postId = MYUSER.$day;
 		$postId = (preg_replace("/[ :-]/", "", $postId));

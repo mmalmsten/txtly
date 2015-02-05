@@ -51,15 +51,12 @@ function uploadImg($directory, $user) {
 
 // Show profile / header picture 
 function showImg($directory, $user) {
-  if (PAGENAME !== "profile.php") {
-    $user = "txtly";
-  }
-  ?>
+  if (PAGENAME == "profile.php"): ?>
   <div class="<?php print $directory ?>img" style="background-image: url(img/<?php print $directory ?>/<?php print $user ?>.jpg);">
     <?php if ($directory == "header"): ?>
       <h1><?php print $user ?></h1>      
     <?php endif ?>
   </div>
-<?php
+<?php endif;
 }
 ?>
