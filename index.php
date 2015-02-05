@@ -1,13 +1,10 @@
 <?php
-
 require 'functions/header.php';
-
 if (!isset($_SESSION['user'])) {
     $_SESSION['error'] = 'What are you doing!? Stop that.';
     header('Location: form.php');
     die;
 }
-
 ?>
 
   <div class="col-sm-9">
