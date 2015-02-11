@@ -6,16 +6,16 @@ $user = "";
 $showpwd = "";
 $showpwd1 = "";
 $alert = "";
-$active = 0;
+$active = 1;
 
 if (isset($_POST['user'])) {
   include 'functions/link.php';
   $link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
   mysqli_connect_errno();
 
-  $name = $_POST['name'];
+  $name = (preg_replace("/[^a-zA-ZåäöÅÄÖ -]/", "", $_POST['name']));
   $email = $_POST['email'];
-  $user = $_POST['user'];
+  $user = (preg_replace("/[^a-zA-Z1-9]/", "", $_POST['user']));
   $pwd = md5($_POST['pwd']);
   $pwd1 = md5($_POST['pwd1']);
   $showpwd = $_POST['pwd'];
@@ -30,7 +30,7 @@ if (isset($_POST['user'])) {
     if (!mysqli_query($link,$insertLocation)) {
       die('Error: ' . mysqli_error($link));
     }
-    $alert = "<div class='messages'>$name, your user '$user' was sucessfully created. You will soon recieve a verification e-mail to '$email'.</div>";
+    $alert = "<div class='messages'>$name, your user '$user' was sucessfully created.</div>";
     $name = "";
     $email = "";
     $user = "";

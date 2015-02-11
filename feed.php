@@ -67,7 +67,7 @@ function feed($pagenumber){
 
 <div class="post <?php print $class; ?>" id="post<?php print $postId ?>">
 	<div class="user">
-		<?php if ($user == MYUSER) { ?>
+		<?php if ($user == MYUSER || userInfo(MYUSER, 'status') == "admin" ) { ?>
 			<button type="submit" name="drop" id="drop" value="<?php print $postId ?>" class="btn-clean"><i class="glyphicon glyphicon-remove"></i></button>
 		<?php } ?>	
 		<?php img($user, "thumbnailimg") ?>

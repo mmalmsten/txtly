@@ -80,9 +80,13 @@ require 'functions/img.php';
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
           <ul class="nav navbar-nav">
             <li><a href="index.php">Home</a></li>
-            <li><a href="profile.php?name=<?php print MYUSER ?>">Profile</a></li>
+            <li><a href="profile.php?name=<?php print MYUSER ?>">My profile</a></li>
+
           </ul>
           <ul class="nav navbar-nav navbar-right">
+            <?php if (MYUSER == "madde"): ?>
+              <li><a href="adminuser.php">Admin page</a></li>
+            <?php endif ?>
             <li><a href="logout.php">Sign out</a></li>
             <li class="logo"><a href="http://www.easyrider.nu/txtly">
               <svg version="1.1" id="Layer_3_xA0_Image_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"

@@ -1,10 +1,9 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,700);
-
 /* Global */
 body {
   background: #eee;
   color: #444;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif; 
+  font-weight: 300;
 }
 
 .clear {
@@ -458,6 +457,7 @@ svg{
   border: 0;
   border-bottom: 1px solid #068E84;
   z-index: 1;
+  text-transform: uppercase;
 }
 .navbar-default .navbar-brand {
   color: #565656;

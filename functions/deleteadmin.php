@@ -1,31 +1,36 @@
 <?php
 
-function DeleteUserImages($deleteThisUser, $directory) {
+function DeleteUserImages($dropThis, $directory) {
 	$showDir = "../img/".$directory;
 	$dir = scandir("$showDir");
 	foreach ($dir as $key => $img){
-		if (strpos($img, $deleteThisUser) !== false) {
+		if (strpos($img, $dropThis) !== false) {
 		  unlink($showDir."/".$img);
 		}
 	}
 }
 
 if (isset($_POST["drop"])){
-	$deleteThisUser = $_POST["drop"];
+	$dropThis = $_POST["drop"];
 
 	include 'link.php';
 	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
 	mysqli_connect_errno();
 
-	$sql="DELETE FROM users WHERE user='$deleteThisUser'";
-
+	$sql="DELETE FROM users WHERE name='$dropThis'";
 	if (!mysqli_query($link,$sql)) {
 		print "Sorry, something went wrong!<br>";
 		die('Error: ' . mysqli_error($link));
 	}
 
-	DeleteUserImages($deleteThisUser, "profileimg");
-	DeleteUserImages($deleteThisUser, "headerimg");
+	$sql="DELETE FROM locations WHERE name='$dropThis'";
+	if (!mysqli_query($link,$sql)) {
+		print "Sorry, something went wrong!<br>";
+		die('Error: ' . mysqli_error($link));
+	}
+
+	DeleteUserImages($dropThis, "profileimg");
+	DeleteUserImages($dropThis, "headerimg");
 
 	mysqli_close($link);
 }
