@@ -33,7 +33,7 @@ function showSearch($searchFor){
         $info = $row['name'];
       ?>
         <tr>
-          <td><img src="img/profile/<?php print $name ?>.jpg" alt="" class="profilethumbnail"></td>
+          <td><?php img($name, "thumbnailimg") ?></td>
           <td><a href="profile.php?name=<?php print $name ?>"><?php print $info ?></a></td>
           <td><?php print $name ?></td>
         </tr>

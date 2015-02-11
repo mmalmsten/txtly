@@ -4,16 +4,16 @@
     <script type="text/javascript">
     	// Show "upload form" when clicking on profile picture
   		$(document).ready(function(){
-		  $(".showprofile").click(function(){
-		    $(".uploadprofile").slideDown("slow");
+		  $(".showprofileimg").click(function(){
+		    $(".uploadprofileimg").slideDown("slow");
 		  });
 		  var width = $('.profileimg').width();
 		  $('.profileimg').css('height', width);
 		});
     	// Show "upload form" when clicking on profile picture
   		$(document).ready(function(){
-		  $(".showheader").click(function(){
-		    $(".uploadheader").slideDown("slow");
+		  $(".showheaderimg").click(function(){
+		    $(".uploadheaderimg").slideDown("slow");
 		  });
 		});
 
@@ -29,7 +29,6 @@
 			$.ajaxSetup({
 			    beforeSend: function() {
 			    	$('#loadposts').fadeIn(); 
-			    	$('#loadnow').fadeOut(); 
 			 	},
 			    complete: function() {
 			    	$('#loadposts').fadeOut(); 

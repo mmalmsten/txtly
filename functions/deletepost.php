@@ -12,9 +12,18 @@ if (isset($_POST["drop"])){
 	$sql="DELETE FROM posts WHERE id='$id'";
 
 	if (!mysqli_query($link,$sql)) {
-	  print "Sorry, something went wrong!<br>";
-	  die('Error: ' . mysqli_error($link));
+		print "Sorry, something went wrong!<br>";
+		die('Error: ' . mysqli_error($link));
 	}
+
+	$showDir = "../img/uploads";
+	$dir = scandir("$showDir");
+	foreach ($dir as $key => $img){
+		if (strpos($img, $id) !== false) {
+		  unlink($showDir."/".$img);
+		}
+	}
+
 
 	mysqli_close($link);
 }

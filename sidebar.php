@@ -37,7 +37,7 @@ function followBtn() {
   <input type='submit' class="btn btn-xs btn-primary btn-follow" id="followBtn" name="follow<?php print CURRENT ?>" value="<?php print $follow ?>">
 
 <?php } ?>
-<?php if (CURRENTGET == "location"): ?>
+<?php if (CURRENTGET == "location" && placeInfo(CURRENT, 'name') == CURRENT): ?>
   <div class="sidebar">
     <h4><a href="place.php?location=<?php print placeInfo(CURRENT, 'lat') ?>"><?php print placeInfo(CURRENT, 'name') ?></a></h4>
     <p><?php print placeInfo(CURRENT, 'lat') ?>, <?php print placeInfo(CURRENT, 'lng') ?>
@@ -64,6 +64,7 @@ function followBtn() {
           };
 
           var map=new google.maps.Map(document.getElementById("<?php print placeInfo(CURRENT, 'name') ?>map"),mapProp);
+          map.setTilt(45);
 
           var marker=new google.maps.Marker({
             position:myCenter,
@@ -86,7 +87,7 @@ function followBtn() {
   </div>
 </div>
 <?php if (PAGENAME == "profile.php"): ?>
-  <?php img(CURRENT, "profile") ?>
+  <?php img(CURRENT, "profileimg") ?>
   <div class="sidebar">
     <h4><a href="profile.php?name=<?php print userInfo(CURRENT, 'user') ?>"><?php print userInfo(CURRENT, 'name') ?></a></h4>
     <div id="updateuser">

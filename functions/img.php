@@ -1,26 +1,29 @@
 <?php
 
-// Run function depending on if user has the right to change profile picture or not.
-function img($user, $directory) {
-  if ($user !== MYUSER || $directory == "thumbnail"){
-    showImg($directory, $user);
-  }
-  else {
-    uploadImg($directory, $user);
-  }
-}
+function uploadImg($user, $directory) {
 
-// Upload profile / header picture
-function uploadImg($directory, $user) {
-
-  if (isset($_FILES['upload']) && $_GET['upload'] == $directory) {
+  if (isset($_POST['addimg']) && $_POST['addimg'] == $directory && isset($_FILES['upload'])) {
     if ($_FILES['upload']['error']  ==  0) {
+
+      $directoryName = $directory;
+      if ($directory == "thumbnailimg") {
+        $directoryName = "profileimg";
+      }
+
+      $showDir = "img/".$directoryName;
+      $dir = scandir("$showDir");
+      foreach ($dir as $key => $img){
+        if (strpos($img, $user) !== false) {
+          unlink($showDir."/".$img);
+        }
+      }
+
       $tmp = $_FILES['upload']['tmp_name'];
       $name = $_FILES['upload']['name'];
       $size = $_FILES['upload']['size'];
-      //$rest = substr($name, -4);
-      $rest = strstr($name, '.');
-      
+      $rest = $_FILES['upload']['type'];
+      $rest = str_replace("image/", ".", $rest);
+
       if ($size > 2097152) {
         printf("<div class='messages'>The chosen image is  %d  bytes too big!</div>", $size - 2097152);
       }
@@ -31,34 +34,45 @@ function uploadImg($directory, $user) {
     else {
       print "<div class='messages'>Oops! It seems like something went wrong</div>";
     }
-  }
-  ?>
-  <div class="<?php print $directory ?>img" style="background-image: url(img/<?php print $directory ?>/<?php print $user ?>.jpg);">
-    <div class="hoverprofileimg show<?php print $directory ?>">Upload new image</div>
-    <?php if ($directory == "header"): ?>
-      <h1><?php print $user ?></h1>      
-    <?php endif ?>
-  </div>
-  <div class="sidebar uploadprofileimg upload<?php print $directory ?>">
-    <form enctype="multipart/form-data" action="<?php print PAGENAME ?>?name=<?php print CURRENT ?>&upload=<?php print $directory ?>" method="POST">
-      Upload an image (maximum 2Mb):
-      <input type="file" name="upload" />
-      <input type="submit" class="btn btn-primary" value="Upload"  />
-    </form>
-  </div>
-<?php
+  } 
 }
 
 // Show profile / header picture 
-function showImg($directory, $user) {
-  $directoryName = $directory;
-  if ($directory == "thumbnail") {
-    $directoryName = "profile";
+function img($user, $directory) {
+
+  if ($user == MYUSER){
+    uploadImg($user, $directory);
   }
+
+  $directoryName = $directory;
+  if ($directory == "thumbnailimg") {
+    $directoryName = "profileimg";
+  }
+
+  $showDir = "img/".$directoryName;
+  $dir = scandir("$showDir");
+  foreach ($dir as $key => $img){
+    if (strpos($img, $user) !== false) {
+      $file = $showDir."/".$img;
+    }
+  }
+
 ?>
-  <div class="<?php print $directory ?>img" style="background-image: url(img/<?php print $directoryName ?>/<?php print $user ?>.jpg);">
-    <?php if ($directory == "header"): ?>
-      <h1><?php print $user ?></h1>      
+  <div class="<?php print $directory ?>" style="background-image: url(<?php print $file ?>);">
+    <?php if ($directory == "headerimg"): ?>
+      <h1 class="hidden-xs"><?php print $user ?></h1>      
+    <?php endif ?>
+    <?php if ($user == MYUSER): ?>
+      <div class="hoverprofileimg show<?php print $directory ?>">Upload new image</div>
+    </div>
+    <div class="sidebar uploadprofileimg upload<?php print $directory ?>">
+      <form enctype="multipart/form-data" action="<?php print PAGENAME ?>?name=<?php print CURRENT ?>" method="POST">
+        Upload an image (maximum 2Mb):
+        <input type="file" name="upload" />
+        <button type="submit" class="btn btn-primary" name="addimg" value="<?php print $directory ?>">UPLOAD</button>
+      </form>
     <?php endif ?>
   </div>
-<?php } ?>
+
+<?php 
+}

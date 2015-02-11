@@ -64,7 +64,7 @@ require 'functions/img.php';
    </head>
   <body>
 <div id="loadScript"></div>
-    <nav class="navbar navbar-default" role="navigation">
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
@@ -84,7 +84,7 @@ require 'functions/img.php';
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <li><a href="logout.php">Sign out</a></li>
-            <li class="logo">
+            <li class="logo"><a href="http://www.easyrider.nu/txtly">
               <svg version="1.1" id="Layer_3_xA0_Image_1_" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                  x="0px" y="0px" viewBox="0 0 496 363" enable-background="new 0 0 496 363" xml:space="preserve">
                 <image overflow="visible" width="496" height="363" id="Layer_3_xA0_Image" xlink:href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAfAAAAFrCAYAAAAuDdtmAAAACXBIWXMAAAsSAAALEgHS3X78AAAA
@@ -144,7 +144,7 @@ require 'functions/img.php';
                 83ttCwD02015/W4R7+bfRuYAEIhXVAPouf8JMAA+wpBaRvgcIQAAAABJRU5ErkJggg==">
                 </image>
               </svg>
-            </li>
+            </a></li>
           </ul>
           <form class="navbar-form navbar-right" action="search.php" method="get">
             <div class="form-group">
@@ -157,9 +157,42 @@ require 'functions/img.php';
       </div>
     </nav>
  
-    <div class="hidden-xs"><?php img(CURRENT, "header") ?></div>
+    <?php if (PAGENAME == "profile.php"): ?>
+      <?php img(CURRENT, "headerimg") ?>
+    <?php endif ?>
+    <?php if (CURRENTGET == "location"): ?>
+      <div class="headerimg" id="<?php print placeInfo(CURRENT, 'name') ?>header"></div>
+      <script type="text/javascript">
+
+        if ("<?php print placeInfo(CURRENT, 'lat') ?>") {
+          var myCenter=new google.maps.LatLng(<?php print placeInfo(CURRENT, 'lat') ?>, <?php print placeInfo(CURRENT, 'lng') ?>);
+
+          var mapProp = {
+          center:myCenter,
+          zoom:16,
+          scrollwheel: false,
+          navigationControl: false,
+          mapTypeControl: false,
+          scaleControl: false,
+          draggable: false,
+          mapTypeId:google.maps.MapTypeId.SATELLITE
+          };
+
+          var map=new google.maps.Map(document.getElementById("<?php print placeInfo(CURRENT, 'name') ?>header"),mapProp);
+          map.setTilt(45);
+
+          var marker=new google.maps.Marker({
+            position:myCenter,
+          });
+
+          marker.setMap(map);
+        }
+      </script>
+    <?php endif ?>
+
     <div class="wrapper">
       <div class="col-sm-3">
         <?php require 'sidebar.php'; ?>
       </div>
+
 

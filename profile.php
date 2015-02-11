@@ -15,19 +15,22 @@
   $postResult = mysqli_query($link, "SELECT user FROM users WHERE user = '".CURRENT."'");
   $row = mysqli_fetch_assoc($postResult);
   
-  if (!$row) {
-    print "
-    <div class='feed col-md-6 col-sm-9'><h1>
-    How terrible! <br>
-    <small>It seems like there's no existing user called <strong>@".CURRENT."</strong>.
-    The user might have been removed, but maybe the search field can lead you in the right direction?</small>
-    </h1></div>
-  <div class='col-md-3 visible-md visible-lg'>
-    ";
-  }
+  if (!$row) { ?>
+      
+    <div class='feed col-md-6 col-sm-9'>
+      <div class="foundnothing">
+        <h1>
+          How terrible! <br>
+          <small>It seems like there's no existing user called <strong>@<?php print CURRENT ?></strong>.
+          The user might have been removed, but maybe the search field can lead you in the right direction?</small>
+        </h1>
+        <p><form class="form-inline" action="search.php" method="get">
+          <button type="submit" name="search" class="btn btn-primary" value="<?php print $searchterm ?>">Sure, let's search</button>
+        </form>
+      </div>
+    </div>
 
-  else{
-?>
+  <?php } else { ?>
 
   <div class="col-sm-9">
     <div id="loadnextpage"></div>
