@@ -40,6 +40,10 @@ if (isset($_POST["newpost"])){
 	elseif (isset($_POST["addoldlocation"])) {
 		$location = $_POST["addoldlocation"];	
 	}
+	// If post is a reply
+	elseif (isset($_POST["reply"])) {
+		$location = "";
+	}
 	// If no location is submitted
 	else {
 		$lat = $_POST["lat"];
@@ -48,8 +52,8 @@ if (isset($_POST["newpost"])){
 		$location = $city.", ".$country;
 	}
 
-  	$toTxt = (preg_replace("/[<>]/", "", $newPost));
-	$toTxt = str_replace("'", "", $toTxt);
+	$toTxt = str_replace("'", "´", $newPost);
+  	$toTxt = (preg_replace("/[^a-zA-Z0-9åäöÅÄÖ -:;,=´()]/", "", $toTxt));
 	$toTxt = preg_replace_callback('/(http[s]?:(\S+))/',
 		function($bitlyUrl) {
 		$login = "maddeeasyrider";
@@ -65,8 +69,17 @@ if (isset($_POST["newpost"])){
 		$postId = MYUSER.$day;
 		$postId = (preg_replace("/[ :-]/", "", $postId));
 
-		$sql="INSERT INTO posts (user, time, content, location, id)
-		VALUES ('".MYUSER."', '$day', '$toTxt', '$location', '$postId')";
+
+		
+		if (isset($_POST["reply"])){
+			// If post is a reply to other posts
+			$reply = $_POST["reply"];
+			$sql="INSERT INTO replies (user, time, content, location, id)
+			VALUES ('".MYUSER."', '$day', '$toTxt', '$location', '$reply')";
+		} else{
+			$sql="INSERT INTO posts (user, time, content, location, id)
+			VALUES ('".MYUSER."', '$day', '$toTxt', '$location', '$postId')";
+		}
 
 		if (!mysqli_query($link,$sql)) {
 		  die('Error: ' . mysqli_error($link));
@@ -111,7 +124,7 @@ function newPost($newPost,$location, $postId){
 			<input type="file" name="upload" />
 			<input type="text" name="lat" id="lat" placeholder="GPS" class="gps form-control">
 			<input type="text" name="lng" id="lng" placeholder="GPS" class="gps form-control">
-	      	<button class="btn btn-primary" name="submit" value="">Post</button>
+	      	<button type="submit" class="btn btn-primary" name="submit" value="">Post</button>
 	      	<div class="clear"></div>
 		</form>
 	</div>
@@ -125,6 +138,38 @@ function newPost($newPost,$location, $postId){
 	        } else {
 	          var char = max - len;
 	          $('#newpostchars').text(char + ' characters left');
+	        }
+	      });
+	    });
+    </script>
+<?php
+}
+
+function replyPost($newPost,$location, $postId){
+	?>
+
+    <div class="newpost replytopost">
+	    <form enctype="multipart/form-data" action="<?php echo PAGENAME ?>?<?php print CURRENTGET ?>=<?php print CURRENT ?>" method="post">
+			<input type="text" class="form-control hidden" name="addnewlocation" id="addnewlocation" placeholder="Location" value="<?php print $location ?>" onkeyup="findSuggestions(this.value, 'locations')" autocomplete="off">
+			<textarea id="newpost1" name="newpost" class="form-control" placeholder="Write a reply!"><?php print $newPost ?></textarea>
+			<div id="newpostchars1"></div>
+			<input type="file" name="upload" class="hidden" />
+			<input type="text" name="lat" id="lat" placeholder="GPS" class="gps form-control hidden">
+			<input type="text" name="lng" id="lng" placeholder="GPS" class="gps form-control hidden">
+	      	<button type="submit" class="btn btn-primary" name="reply" value="<?php print $postId ?>">Post</button>
+	      	<div class="clear"></div>
+		</form>
+	</div>
+    <script>
+	    $(document).ready(function(){
+	      $('textarea#newpost1').keyup(function () {
+	        var max = 140;
+	        var len = $(this).val().length;
+	        if (len > max) {
+	          $('#newpostchars1').text('! Oops, to many characters!');
+	        } else {
+	          var char = max - len;
+	          $('#newpostchars1').text(char + ' characters left');
 	        }
 	      });
 	    });

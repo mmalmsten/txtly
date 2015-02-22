@@ -1,7 +1,6 @@
 <?php
 
 // Drop row based on ID
-
 if (isset($_POST["drop"])){
 	$id = $_POST["drop"];
 

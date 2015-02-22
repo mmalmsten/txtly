@@ -10,7 +10,7 @@ if (!isset($_SESSION['user'])) {
 
 if ($_SERVER["REQUEST_METHOD"] == "GET"){
   $search = @$_GET["search"];
-  $searchresult = (preg_replace("/[^a-zA-Z1-9åäöÅÄÖ]/", "", $search));
+  $searchresult = (preg_replace("/[^a-zA-Z0-9åäöÅÄÖ]/", "", $search));
 }
 
 function showSearch($searchFor){

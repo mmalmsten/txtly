@@ -273,6 +273,33 @@ svg{
   text-transform: uppercase;
 }
 
+.replies{
+  margin-left: 30px;
+  overflow: hidden;
+  height: 30px;
+  padding: 0 15px;
+  transition: all 1s;
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+}
+
+.post:hover .replies{
+  overflow: hidden;
+  height: auto;
+  padding: 15px;
+}
+
+.replytopost{
+  display: none; 
+  transition: all 1s;
+  -webkit-transition: all 1s;
+  -moz-transition: all 1s;
+}
+
+.post:hover .replytopost{
+  display: block;
+}
+
 .user{
   margin-bottom: 10px;
 }

@@ -10,6 +10,7 @@ $postResult = mysqli_query($link, "SELECT * FROM users");
 if ($postResult) {
   while ($row = mysqli_fetch_assoc($postResult)) {
 	$user = $row['user'];
+  $user = strtolower($user);
 	$pwd = $row['pass'];
   $active = $row['active'];
 	$theArray[$user] = $pwd;
