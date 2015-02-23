@@ -1,4 +1,9 @@
 <?php
+if (!isset($_SESSION['user'])) {
+    $_SESSION['error'] = 'What are you doing!? Stop that.';
+    header('Location: ../form.php');
+    die;
+}
 
 // Show only locations close to current location
 $latmin = ($_REQUEST["lat"] - (($_REQUEST["lat"]) / 1000));

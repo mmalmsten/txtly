@@ -1,4 +1,9 @@
 <?php
+if (!isset($_SESSION['user'])) {
+    $_SESSION['error'] = 'What are you doing!? Stop that.';
+    header('Location: ../form.php');
+    die;
+}
 
 // lat and lng to area, city and country
 if (isset($lng)) {
@@ -11,6 +16,9 @@ if (isset($lng)) {
 	$city = $json['results'][0]['address_components'][2]['long_name'].", ".$json['results'][0]['address_components'][4]['long_name'];
 	$country = $json['results'][0]['address_components'][6]['long_name'];
 
+} else{
+	$city = "";
+	$country = "Location unknown";
 }
 
 ?>

@@ -1,17 +1,20 @@
 <?php
+if (!isset($_SESSION['user'])) {
+    $_SESSION['error'] = 'What are you doing!? Stop that.';
+    header('Location: ../form.php');
+    die;
+}
+
 $newPost = "";
 $location = "";
-$lat = "";
-$lng = "";
-$description = "";
 $postId = "";
-$thisid = "";
 
 if (isset($_POST["newpost"])){
 	include 'link.php';
 	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
 	mysqli_connect_errno();
 
+	//Short links
 	require 'bitly.php';
 
 	$location = "";
@@ -25,7 +28,7 @@ if (isset($_POST["newpost"])){
 		$lng = $_POST["lng"];
 		$description = $_POST["description"];
 	  	$description = (preg_replace("/[<>]/", "", $description));
-    	$description = str_replace("'", "", $description);
+    	$description = str_replace("'", "´", $description);
 
 		require 'findlocation.php';
 
@@ -41,7 +44,7 @@ if (isset($_POST["newpost"])){
 	elseif (isset($_POST["addoldlocation"])) {
 		$location = $_POST["addoldlocation"];	
 	}
-	// If post is a reply
+	// If post is a reply to another post
 	elseif (isset($_POST["reply"])) {
 		$location = "";
 	}
@@ -69,32 +72,32 @@ if (isset($_POST["newpost"])){
 		$day = date("Y-m-d H:i:s");
 		$postId = MYUSER.$day;
 		$postId = (preg_replace("/[ :-]/", "", $postId));
-
-
-		
+	
 		if (isset($_POST["reply"])){
-			// If post is a reply to other posts
+			// If the new post is a reply to another post
 			print "YEP!";
 			$reply = $_POST["reply"];
 			$sql="INSERT INTO replies (user, time, content, id, replies)
 			VALUES ('".MYUSER."', '$day', '$toTxt', '$postId', '$reply')";
 		} else{
+			// If the post is not a reply
 			$sql="INSERT INTO posts (user, time, content, location, id)
 			VALUES ('".MYUSER."', '$day', '$toTxt', '$location', '$postId')";
 		}
 
 		if (!mysqli_query($link,$sql)) {
-		  die('Error: ' . mysqli_error($link));
+			die('Error: ' . mysqli_error($link));
+		} else{
+			// If succeeded to add new post, clear the form.
+			$newPost = "";
+			$location = "";
 		}
-
-		$newPost = "";
-		$location = "";
 	}
 	elseif (strlen($toTxt) > 140) {
 		print "<div class='messages'>Please, stay within the character limit...</div>";
 	}
 
-	// Upload file if a file is submitted
+	// Upload file if submitted
 	if (isset($_FILES['upload'])) {
 		if ($_FILES['upload']['error']  ==  0) {
 		  $tmp = $_FILES['upload']['tmp_name'];
@@ -103,7 +106,7 @@ if (isset($_POST["newpost"])){
 		  $rest = substr($name, -4);
 		  
 		  if ($size > 2097152) {
-		    printf("Filen $name är  %d  bytes för stor!", 2097152 - $size);
+		    printf("The file $name is %d bytes too big!", 2097152 - $size);
 		  }
 		  else {
 		    move_uploaded_file($tmp,  "img/uploads/" . $postId . $rest);
@@ -152,7 +155,7 @@ function replyPost($newPost,$location, $postId){
 
     <div class="newpost replytopost">
 	    <form enctype="multipart/form-data" action="<?php echo PAGENAME ?>?<?php print CURRENTGET ?>=<?php print CURRENT ?>" method="post">
-			<textarea id="newpost1" name="newpost" class="form-control" placeholder="Write a reply!"><?php print $newPost ?></textarea>
+			<textarea id="newpost1<?php print $postId ?>" name="newpost" class="form-control" placeholder="Write a reply!"><?php print $newPost ?></textarea>
 			<div id="newpostchars1"></div>
 	      	<button type="submit" class="btn btn-primary" name="reply" value="<?php print $postId ?>">Post</button>
 	      	<div class="clear"></div>
@@ -160,14 +163,14 @@ function replyPost($newPost,$location, $postId){
 	</div>
     <script>
 	    $(document).ready(function(){
-	      $('textarea#newpost1').keyup(function () {
+	      $('textarea#newpost<?php print $postId ?>').keyup(function () {
 	        var max = 140;
 	        var len = $(this).val().length;
 	        if (len > max) {
-	          $('#newpostchars1').text('! Oops, to many characters!');
+	          $('#newpostchars<?php print $postId ?>').text('! Oops, to many characters!');
 	        } else {
 	          var char = max - len;
-	          $('#newpostchars1').text(char + ' characters left');
+	          $('#newpostchars<?php print $postId ?>').text(char + ' characters left');
 	        }
 	      });
 	    });

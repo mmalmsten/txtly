@@ -1,16 +1,22 @@
 <?php
+if (!isset($_SESSION['user'])) {
+    $_SESSION['error'] = 'What are you doing!? Stop that.';
+    header('Location: ../form.php');
+    die;
+}
 
+// Shows suggestions when searching with search field
 include 'link.php';
 $link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
 mysqli_connect_errno();
 
-$postResult = mysqli_query($link, "SELECT * FROM users ORDER BY user");
+$userResult = mysqli_query($link, "SELECT * FROM users ORDER BY user");
 $tagResult = mysqli_query($link, "SELECT content FROM posts ORDER BY time DESC");
 $locationResult = mysqli_query($link, "SELECT * FROM locations ORDER BY name DESC");
 
 $searchObjects = Array();
 
-while ($row = mysqli_fetch_array($postResult)) {
+while ($row = mysqli_fetch_array($userResult)) {
     $searchObjects[] = $row['user'];  
 }
 
@@ -44,7 +50,7 @@ $searchFor = $_REQUEST["searchFor"];
 
 $suggestion = "";
 
-// lookup all suggestions from array if $searchFor is different from "" 
+// Look up all suggestions from array if $searchFor is'nt ""
 if ($searchFor !== "") {
     $searchFor = strtolower($searchFor);
     $len=strlen($searchFor);

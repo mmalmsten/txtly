@@ -1,5 +1,11 @@
 <?php
 
+if (!isset($_SESSION['user'])) {
+    $_SESSION['error'] = 'What are you doing!? Stop that.';
+    header('Location: ../form.php');
+    die;
+}
+
 // Convert links to bitly links
 
 function get_bitly_short_url($url,$login,$appkey,$format='txt') {

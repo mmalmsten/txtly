@@ -4,7 +4,7 @@ session_start();
 
 if (!isset($_SESSION['user'])) {
     $_SESSION['error'] = 'What are you doing!? Stop that.';
-    header('Location: form.php');
+    header('Location: ../form.php');
     die;
 }
 

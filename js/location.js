@@ -30,6 +30,9 @@ function showError(error) {
     case error.UNKNOWN_ERROR:
       document.getElementById("locationinfo").value="An unknown error occurred."
       break;
+    default:
+      document.getElementById("locationinfo").value="An unknown error occurred."      
+      break;
     }
     lat.value = "59.329444";   
     lng.value = "18.068611";  
@@ -44,7 +47,7 @@ function locationReady() {
 window.onload = getLocation;
 
 
-// Suggest search result or location results
+// Suggest search result or location results when writing a new post
 function findSuggestions(str, url) {
     if (str.length == 0) { 
         document.getElementById(url + "result").innerHTML = "";

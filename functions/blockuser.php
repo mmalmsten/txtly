@@ -1,5 +1,11 @@
 <?php
 
+if (!isset($_SESSION['user'])) {
+    $_SESSION['error'] = 'What are you doing!? Stop that.';
+    header('Location: ../form.php');
+    die;
+}
+
 if (isset($_POST["activeValue"])){
 	include 'link.php';
 	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);

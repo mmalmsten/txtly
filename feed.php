@@ -62,112 +62,86 @@ function feed($pagenumber){
 		$content = preg_replace('/(@([a-zA-Z0-9_åäöÅÄÖ]+))/', '<a href="profile.php?name=\2" class="aName">\2</a>', $content);
 		$content = preg_replace('/(#([a-zA-Z0-9_åäöÅÄÖ]+))/', '<a href="search.php?search=\2" class="aTag">\1</a>', $content);
 	    $location = $row['location'];
-		$postId = $row['id'];
-?>
-
-<div class="post" id="post<?php print $postId ?>">
-	<div class="user">
-		<?php if ($user == MYUSER || userInfo(MYUSER, 'status') == "admin" ) { ?>
-			<button type="submit" name="drop" id="drop" value="<?php print $postId ?>" class="btn-clean"><i class="glyphicon glyphicon-remove"></i></button>
-		<?php } ?>	
-		<div class="thumbnailimg" style="background-image: url(<?php print showImage($user, "profileimg") ?>);"></div>
-		<span class="name"><a href="profile.php?name=<?php print $user ?>"><?php print userInfo($user, 'name') ?></a></span> <span class="time"><?php print $time; ?> <a href="place.php?location=<?php print $location ?>"><?php print $location ?></a></span>
-	</div>
-	<p><?php print $content ?></p>
-	<div class="clear"></div>
-	<div class="row">
-		<?php if (showImage($postId, "uploads")): ?>
-			<div class="col-sm-6">
-				<div class="postattachment" style="background-image: url(<?php print showImage($postId, "uploads") ?>);"></div>
+		$postId = $row['id']; ?>
+		
+		<div class="post" id="post<?php print $postId ?>">
+			<div class="user">
+				<?php if ($user == MYUSER || userInfo(MYUSER, 'status') == "admin" ) { ?>
+					<button type="submit" name="drop" id="drop" value="<?php print $postId ?>" class="btn-clean"><i class="glyphicon glyphicon-remove"></i></button>
+				<?php } ?>	
+				<div class="thumbnailimg" style="background-image: url(<?php print showImage($user, "profileimg") ?>);"></div>
+				<span class="name"><a href="profile.php?name=<?php print $user ?>"><?php print userInfo($user, 'name') ?></a></span> <span class="time"><?php print $time; ?> <a href="place.php?location=<?php print $location ?>"><?php print $location ?></a></span>
 			</div>
-		<?php endif ?>
-		<?php if (PAGENAME !== "place.php" && placeInfo($location, 'lat')): ?>
-			<div class="col-sm-6">
-				<div class="postattachment" id="<?php print $postId ?>map"></div>
+			<p><?php print $content ?></p>
+			<div class="clear"></div>
+			<div class="row">
+				<?php if (showImage($postId, "uploads")): ?>
+					<div class="col-sm-6">
+						<div class="postattachment" style="background-image: url(<?php print showImage($postId, "uploads") ?>);"></div>
+					</div>
+				<?php endif ?>
+				<?php if (PAGENAME !== "place.php" && placeInfo($location, 'lat')): ?>
+					<div class="col-sm-6">
+						<div class="postattachment" id="<?php print $postId ?>map"></div>
+					</div>
+				<?php endif ?>
 			</div>
-		<?php endif ?>
-	</div>
-<?php if (placeInfo($location, 'lat')): ?>
-	<script type="text/javascript">
-		var str = "<?php print placeInfo($location, 'lat'); ?>";
-		if (str !== "") {
-			var myCenter=new google.maps.LatLng(<?php print placeInfo($location, 'lat'); ?>, <?php print placeInfo($location, 'lng'); ?>);
-		    var mapProp = {
-			    center:myCenter,
-			    zoom:12,
-			    scrollwheel: false,
-			    navigationControl: false,
-			    mapTypeControl: false,
-			    scaleControl: false,
-			    draggable: false,
-			    mapTypeId:google.maps.MapTypeId.ROADMAP
-		    };
-		    var map=new google.maps.Map(document.getElementById("<?php print $postId ?>map"),mapProp);
-		    var marker=new google.maps.Marker({
-		    	position:myCenter,
-		    });
-		    marker.setMap(map);
-	    };
-	</script>
-<?php endif;
+		<?php if (placeInfo($location, 'lat')): ?>
+			<script type="text/javascript">
+				var str = "<?php print placeInfo($location, 'lat'); ?>";
+				if (str !== "") {
+					var myCenter=new google.maps.LatLng(<?php print placeInfo($location, 'lat'); ?>, <?php print placeInfo($location, 'lng'); ?>);
+				    var mapProp = {
+					    center:myCenter,
+					    zoom:12,
+					    scrollwheel: false,
+					    navigationControl: false,
+					    mapTypeControl: false,
+					    scaleControl: false,
+					    draggable: false,
+					    mapTypeId:google.maps.MapTypeId.ROADMAP
+				    };
+				    var map=new google.maps.Map(document.getElementById("<?php print $postId ?>map"),mapProp);
+				    var marker=new google.maps.Marker({
+				    	position:myCenter,
+				    });
+				    marker.setMap(map);
+			    };
+			</script>
+		<?php endif;
 
-//Show replies
-$replyToPost = mysqli_query($link, "SELECT * FROM replies WHERE replies='$postId' ORDER BY time ASC");
-if ($replyToPost) {
-  while ($row = mysqli_fetch_assoc($replyToPost)) {
-    $user = $row['user'];
-    $time = $row['time'];
-    $content = $row['content'];
-	require 'functions/usertoname.php';	    
-	$content = preg_replace('/(@([a-zA-Z0-9_åäöÅÄÖ]+))/', '<a href="profile.php?name=\2" class="aName">\2</a>', $content);
-	$content = preg_replace('/(#([a-zA-Z0-9_åäöÅÄÖ]+))/', '<a href="search.php?search=\2" class="aTag">\1</a>', $content);
-	$postId = $row['replies'];
-	$thisId = $row['id'];
-	?>
+		//Show replies
+		$replyToPost = mysqli_query($link, "SELECT * FROM replies WHERE replies='$postId' ORDER BY time ASC");
+		if ($replyToPost) {
+		  while ($row = mysqli_fetch_assoc($replyToPost)) {
+		    $user = $row['user'];
+		    $time = $row['time'];
+		    $content = $row['content'];
+			require 'functions/usertoname.php';	    
+			$content = preg_replace('/(@([a-zA-Z0-9_åäöÅÄÖ]+))/', '<a href="profile.php?name=\2" class="aName">\2</a>', $content);
+			$content = preg_replace('/(#([a-zA-Z0-9_åäöÅÄÖ]+))/', '<a href="search.php?search=\2" class="aTag">\1</a>', $content);
+			$postId = $row['replies'];
+			$thisId = $row['id']; ?>
 
-<div class="replies" id="post<?php print $thisId ?>">
-	<div class="user">
-		<?php if ($user == MYUSER || userInfo(MYUSER, 'status') == "admin" ) { ?>
-			<button type="submit" name="drop" id="drop" value="<?php print $thisId ?>" class="btn-clean"><i class="glyphicon glyphicon-remove"></i></button>
-		<?php } ?>	
-		<div class="thumbnailimg" style="background-image: url(<?php print showImage($user, "profileimg") ?>);"></div>
-		<span class="name"><a href="profile.php?name=<?php print $user ?>"><?php print userInfo($user, 'name') ?></a></span> <span class="time"><?php print $time; ?> <a href="place.php?location=<?php print $location ?>"><?php print $location ?></a></span>
-	</div>
-	<p><?php print $content ?></p>
-</div>
+			<div class="replies" id="post<?php print $thisId ?>">
+				<div class="user">
+					<?php if ($user == MYUSER || userInfo(MYUSER, 'status') == "admin" ) { ?>
+						<button type="submit" name="drop" id="drop" value="<?php print $thisId ?>" class="btn-clean"><i class="glyphicon glyphicon-remove"></i></button>
+					<?php } ?>	
+					<div class="thumbnailimg" style="background-image: url(<?php print showImage($user, "profileimg") ?>);"></div>
+					<span class="name"><a href="profile.php?name=<?php print $user ?>"><?php print userInfo($user, 'name') ?></a></span> <span class="time"><?php print $time; ?> <a href="place.php?location=<?php print $location ?>"><?php print $location ?></a></span>
+				</div>
+				<p><?php print $content ?></p>
+			</div>
 
-<?php if (placeInfo($location, 'lat')): ?>
-	<script type="text/javascript">
-		var str = "<?php print placeInfo($location, 'lat'); ?>";
-		if (str !== "") {
-			var myCenter=new google.maps.LatLng(<?php print placeInfo($location, 'lat'); ?>, <?php print placeInfo($location, 'lng'); ?>);
-		    var mapProp = {
-			    center:myCenter,
-			    zoom:12,
-			    scrollwheel: false,
-			    navigationControl: false,
-			    mapTypeControl: false,
-			    scaleControl: false,
-			    draggable: false,
-			    mapTypeId:google.maps.MapTypeId.ROADMAP
-		    };
-		    var map=new google.maps.Map(document.getElementById("<?php print $postId ?>map"),mapProp);
-		    var marker=new google.maps.Marker({
-		    	position:myCenter,
-		    });
-		    marker.setMap(map);
-	    };
-	</script>
-<?php endif;
-
-		  }
+		  <?php }
 		  mysqli_free_result($replyToPost);
 		}
-	replyPost($newPost, $location, $postId) ?>
-</div>
-
-	  <?php }
-	  mysqli_free_result($postResult);
+		replyPost($newPost, $location, $postId);
+	//End post
+	print "</div>";
+	}
+	mysqli_free_result($postResult);
 	}
 	mysqli_close($link);
 }

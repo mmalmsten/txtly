@@ -1,8 +1,11 @@
+<?php if (!isset($_SESSION['user'])) {
+    $_SESSION['error'] = 'What are you doing!? Stop that.';
+    header('Location: ../form.php');
+    die;
+} ?>
 		<div class="clear"></div>
 	</div>
 </div>
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
     <script src="js/bootstrap.min.js"></script>
     <script src="js/location.js"></script>
     <script src="js/posts.js"></script>
@@ -22,10 +25,6 @@
 			loadPosts(pageNumber, pagename, current, currentget);
 		});
 	});
-
-	$(function () {
-	  $('[data-toggle="tooltip"]').tooltip()
-	})
 	</script>
   </body>
 </html>

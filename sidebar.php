@@ -1,4 +1,10 @@
 <?php
+if (!isset($_SESSION['user'])) {
+    $_SESSION['error'] = 'What are you doing!? Stop that.';
+    header('Location: form.php');
+    die;
+}
+
 function followBtn() {
   include 'functions/link.php';
   $link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);

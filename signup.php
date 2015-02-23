@@ -14,9 +14,9 @@ if (isset($_POST['user'])) {
   mysqli_connect_errno();
 
   $name = (preg_replace("/[^a-zA-ZåäöÅÄÖ -]/", "", $_POST['name']));
-  $name = strtolower($name);
   $email = $_POST['email'];
   $user = (preg_replace("/[^a-zA-Z0-9]/", "", $_POST['user']));
+  $user = strtolower($user);
   $pwd = md5($_POST['pwd']);
   $pwd1 = md5($_POST['pwd1']);
   $showpwd = $_POST['pwd'];

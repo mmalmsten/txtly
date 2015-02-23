@@ -1,4 +1,9 @@
 <?php
+if (!isset($_SESSION['user'])) {
+    $_SESSION['error'] = 'What are you doing!? Stop that.';
+    header('Location: ../form.php');
+    die;
+}
 
 function userInfo($myUser, $showThis){
 	include 'link.php';

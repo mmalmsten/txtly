@@ -3,7 +3,7 @@
 
   if (!isset($_SESSION['user'])) {
       $_SESSION['error'] = 'What are you doing!? Stop that.';
-      header('Location: form.php');
+      header('Location: ../form.php');
       die;
   }
 
@@ -68,14 +68,6 @@
         <textarea id="description" name="description" class="form-control" placeholder="Describe yourself width 100 chars"><?php print $description ?></textarea>
         <div id="chars"></div>
       </div>
-      <!--<div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-link"></i></span>
-        <input type="password" id="pwd" name="pwd" class="form-control" placeholder="Password" value="">
-      </div>
-      <div class="input-group">
-        <span class="input-group-addon"><i class="glyphicon glyphicon-link"></i></span>
-        <input type="password" id="pwd1" name="pwd1" class="form-control" placeholder="Password" value="">
-      </div>-->
       <div class="clear"></div>
       <p><?php if (isset($alert)) {print $alert;} ?></p>
     <?php endif ?>
