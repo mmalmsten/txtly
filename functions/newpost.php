@@ -5,6 +5,7 @@ $lat = "";
 $lng = "";
 $description = "";
 $postId = "";
+$thisid = "";
 
 if (isset($_POST["newpost"])){
 	include 'link.php';
@@ -53,7 +54,7 @@ if (isset($_POST["newpost"])){
 	}
 
 	$toTxt = str_replace("'", "´", $newPost);
-  	$toTxt = (preg_replace("/[^a-zA-Z0-9åäöÅÄÖ -:;,=´()]/", "", $toTxt));
+  	$toTxt = (preg_replace("/[^a-zA-Z0-9åäöÅÄÖ -:;,=´()@#]/", "", $toTxt));
 	$toTxt = preg_replace_callback('/(http[s]?:(\S+))/',
 		function($bitlyUrl) {
 		$login = "maddeeasyrider";
@@ -73,9 +74,10 @@ if (isset($_POST["newpost"])){
 		
 		if (isset($_POST["reply"])){
 			// If post is a reply to other posts
+			print "YEP!";
 			$reply = $_POST["reply"];
-			$sql="INSERT INTO replies (user, time, content, location, id)
-			VALUES ('".MYUSER."', '$day', '$toTxt', '$location', '$reply')";
+			$sql="INSERT INTO replies (user, time, content, id, replies)
+			VALUES ('".MYUSER."', '$day', '$toTxt', '$postId', '$reply')";
 		} else{
 			$sql="INSERT INTO posts (user, time, content, location, id)
 			VALUES ('".MYUSER."', '$day', '$toTxt', '$location', '$postId')";
@@ -150,12 +152,8 @@ function replyPost($newPost,$location, $postId){
 
     <div class="newpost replytopost">
 	    <form enctype="multipart/form-data" action="<?php echo PAGENAME ?>?<?php print CURRENTGET ?>=<?php print CURRENT ?>" method="post">
-			<input type="text" class="form-control hidden" name="addnewlocation" id="addnewlocation" placeholder="Location" value="<?php print $location ?>" onkeyup="findSuggestions(this.value, 'locations')" autocomplete="off">
 			<textarea id="newpost1" name="newpost" class="form-control" placeholder="Write a reply!"><?php print $newPost ?></textarea>
 			<div id="newpostchars1"></div>
-			<input type="file" name="upload" class="hidden" />
-			<input type="text" name="lat" id="lat" placeholder="GPS" class="gps form-control hidden">
-			<input type="text" name="lng" id="lng" placeholder="GPS" class="gps form-control hidden">
 	      	<button type="submit" class="btn btn-primary" name="reply" value="<?php print $postId ?>">Post</button>
 	      	<div class="clear"></div>
 		</form>

@@ -54,13 +54,6 @@ require 'functions/img.php';
       <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
 
-    <script src="http://maps.googleapis.com/maps/api/js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/currentlocation.js"></script>
-    <script src="js/suggestlocations.js"></script>
-    <script src="js/infinitescroll.js"></script>
-
    </head>
   <body>
 <div id="loadScript"></div>

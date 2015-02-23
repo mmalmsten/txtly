@@ -1,147 +1,31 @@
 		<div class="clear"></div>
 	</div>
 </div>
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/location.js"></script>
+    <script src="js/posts.js"></script>
+    <script src="js/img.js"></script>
+
     <script type="text/javascript">
-    	// Show "upload form" when clicking on profile picture
-  		$(document).ready(function(){
-		  $(".showprofileimg").click(function(){
-		    $(".uploadprofileimg").slideDown("slow");
-		  });
-		  var width = $('.profileimg').width();
-		  $('.profileimg').css('height', width);
+
+   	$(document).ready(function(){
+   		var pageNumber = 0;
+   		var pagename = "<?php print PAGENAME ?>";
+		var current = "<?php print CURRENT ?>";
+		var currentget = "<?php print CURRENTGET ?>";
+		loadPosts(pageNumber, pagename, current, currentget);
+
+		$("#loadnow").click(function(){
+			pageNumber += 10;
+			loadPosts(pageNumber, pagename, current, currentget);
 		});
-    	// Show "upload form" when clicking on profile picture
-  		$(document).ready(function(){
-		  $(".showheaderimg").click(function(){
-		    $(".uploadheaderimg").slideDown("slow");
-		  });
-		});
+	});
 
-		$(function () {
-		  $('[data-toggle="tooltip"]').tooltip()
-		})
-
-
-	  	$(document).ready(function(){
-			var pageNumber = 0;
-
-			//alert("GO!");
-			$.ajaxSetup({
-			    beforeSend: function() {
-			    	$('#loadposts').fadeIn(); 
-			 	},
-			    complete: function() {
-			    	$('#loadposts').fadeOut(); 
-					$('#loadnow').fadeIn(); 
-			    }
-			});
-			$.ajax({
-			    url: 'feed.php',
-			    type: 'post',
-			    data: {
-					"page": pageNumber,
-					"pagename": "<?php print PAGENAME ?>",
-					"current": "<?php print CURRENT ?>",
-					"currentget": "<?php print CURRENTGET ?>",
-			    },
-			    success: function(response) { 
-			    	//alert(response);
-			    	//console.log(response);
-					$("#loadnextpage").append(response);
-				}
-			});
-			
-			$("#loadnow").click(function() {
-				pageNumber = pageNumber + 10;
-				//alert("GO!");
-				$.ajaxSetup({
-				    beforeSend: function() {
-				    	$('#loadposts').fadeIn(); 
-				    	$('#loadnow').fadeOut(); 
-				 	},
-				    complete: function() {
-				    	$('#loadposts').fadeOut();
-						$('#loadnow').fadeIn(); 
-				    }
-				});
-				$.ajax({
-				    url: 'feed.php',
-				    type: 'post',
-				    data: {
-						"page": pageNumber,
-						"pagename": "<?php print PAGENAME ?>",
-						"current": "<?php print CURRENT ?>",
-						"currentget": "<?php print CURRENTGET ?>",
-				    },
-				    success: function(response) { 
-				    	//alert(response);
-				    	console.log(response);
-						$("#loadnextpage").append(response);
-					}
-				});
-			});
-		});
-
-	  	$(document).ready(function(){
-			var pageNumber = 0;
-
-			//alert("GO!");
-			$.ajaxSetup({
-			    beforeSend: function() {
-			    	$('#loadposts').fadeIn(); 
-			    	$('#loadnow').fadeOut(); 
-			 	},
-			    complete: function() {
-			    	$('#loadposts').fadeOut(); 
-					$('#loadnow').fadeIn(); 
-			    }
-			});
-			$.ajax({
-			    url: 'functions/newpost.php',
-			    type: 'post',
-			    data: {
-					"page": pageNumber,
-					"pagename": "<?php print PAGENAME ?>",
-					"current": "<?php print CURRENT ?>",
-					"currentget": "<?php print CURRENTGET ?>",
-			    },
-			    success: function(response) { 
-			    	//alert(response);
-			    	//console.log(response);
-					$("#loadnextpage").append(response);
-				}
-			});
-			
-			$("#loadnow").click(function() {
-				pageNumber = pageNumber + 10;
-				//alert("GO!");
-				$.ajaxSetup({
-				    beforeSend: function() {
-				    	$('#loadposts').fadeIn(); 
-				    	$('#loadnow').fadeOut(); 
-				 	},
-				    complete: function() {
-				    	$('#loadposts').fadeOut();
-						$('#loadnow').fadeIn(); 
-				    }
-				});
-				$.ajax({
-				    url: 'functions/newpost.php',
-				    type: 'post',
-				    data: {
-						"page": pageNumber,
-						"pagename": "<?php print PAGENAME ?>",
-						"current": "<?php print CURRENT ?>",
-						"currentget": "<?php print CURRENTGET ?>",
-				    },
-				    success: function(response) { 
-				    	//alert(response);
-				    	console.log(response);
-						$("#loadnextpage").append(response);
-					}
-				});
-			});
-		});		
+	$(function () {
+	  $('[data-toggle="tooltip"]').tooltip()
+	})
 	</script>
   </body>
 </html>

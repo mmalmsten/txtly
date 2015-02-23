@@ -281,12 +281,16 @@ svg{
   transition: all 1s;
   -webkit-transition: all 1s;
   -moz-transition: all 1s;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .post:hover .replies{
   overflow: hidden;
   height: auto;
   padding: 15px;
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 .replytopost{

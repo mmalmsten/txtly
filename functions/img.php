@@ -5,12 +5,7 @@ function uploadImg($user, $directory) {
   if (isset($_POST['addimg']) && $_POST['addimg'] == $directory && isset($_FILES['upload'])) {
     if ($_FILES['upload']['error']  ==  0) {
 
-      $directoryName = $directory;
-      if ($directory == "thumbnailimg") {
-        $directoryName = "profileimg";
-      }
-
-      $showDir = "img/".$directoryName;
+      $showDir = "img/".$directory;
       $dir = scandir("$showDir");
       foreach ($dir as $key => $img){
         if (strpos($img, $user) !== false) {
@@ -44,12 +39,7 @@ function img($user, $directory) {
     uploadImg($user, $directory);
   }
 
-  $directoryName = $directory;
-  if ($directory == "thumbnailimg") {
-    $directoryName = "profileimg";
-  }
-
-  $showDir = "img/".$directoryName;
+  $showDir = "img/".$directory;
   $dir = scandir("$showDir");
   foreach ($dir as $key => $img){
     if (strpos($img, $user) !== false) {

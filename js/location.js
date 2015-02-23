@@ -36,30 +36,29 @@ function showError(error) {
     locationReady();
 }
 
-/*    var myCenter=new google.maps.LatLng(position.coords.latitude + ", " + position.coords.longitude);
-
-    var mapProp = {
-    center:myCenter,
-    zoom:12,
-    scrollwheel: false,
-    navigationControl: false,
-    mapTypeControl: false,
-    scaleControl: false,
-    draggable: false,
-    mapTypeId:google.maps.MapTypeId.ROADMAP
-    };
-
-    var map=new google.maps.Map(document.getElementById("mymap"),mapProp);
-
-    var marker=new google.maps.Marker({
-      position:myCenter,
-    });
-
-    marker.setMap(map); */
-
 function locationReady() {
     $("#loading").hide(3000);
     $("#doneloading").show(3000);
 }
 
 window.onload = getLocation;
+
+
+// Suggest search result or location results
+function findSuggestions(str, url) {
+    if (str.length == 0) { 
+        document.getElementById(url + "result").innerHTML = "";
+        return;
+    } else {
+        var xmlhttp = new XMLHttpRequest();
+        xmlhttp.onreadystatechange = function() {
+            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                document.getElementById(url + "result").innerHTML = xmlhttp.responseText;
+            }
+        }
+        var lat = document.getElementById("lat").value;
+        var lng = document.getElementById("lng").value;
+        xmlhttp.open("GET", "functions/" + url + ".php?searchFor=" + str + "&lat=" + lat + "&lng=" + lng, true);
+        xmlhttp.send();
+    }
+}
