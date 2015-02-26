@@ -1,9 +1,4 @@
 <?php
-if (!isset($_SESSION['user'])) {
-    $_SESSION['error'] = 'What are you doing!? Stop that.';
-    header('Location: ../form.php');
-    die;
-}
 
 // Shows suggestions when searching with search field
 include 'link.php';
@@ -46,7 +41,7 @@ $searchObjects = array_unique($searchObjects);
 mysqli_close($link);
 
 // get the parameter from URL
-$searchFor = $_REQUEST["searchFor"];
+$searchFor = $_POST["searchFor"];
 
 $suggestion = "";
 

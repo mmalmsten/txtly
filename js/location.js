@@ -46,22 +46,37 @@ function locationReady() {
 
 window.onload = getLocation;
 
+function findSuggestions(str, url){
+    var lat = document.getElementById("lat").value;
+    var lng = document.getElementById("lng").value;
+    var result = "#" + url + "result";
+    console.log(lat);
+    console.log(lng);
+    console.log(url);
+    console.log(str);
 
-// Suggest search result or location results when writing a new post
-function findSuggestions(str, url) {
     if (str.length == 0) { 
-        document.getElementById(url + "result").innerHTML = "";
-        return;
-    } else {
-        var xmlhttp = new XMLHttpRequest();
-        xmlhttp.onreadystatechange = function() {
-            if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                document.getElementById(url + "result").innerHTML = xmlhttp.responseText;
-            }
-        }
-        var lat = document.getElementById("lat").value;
-        var lng = document.getElementById("lng").value;
-        xmlhttp.open("GET", "functions/" + url + ".php?searchFor=" + str + "&lat=" + lat + "&lng=" + lng, true);
-        xmlhttp.send();
+      $(result).innerHTML("");
     }
+    $.ajaxSetup({
+        beforeSend: function() {
+            $('.loadScript').fadeIn(); 
+        },
+        complete: function() {
+            $('.loadScript').fadeOut(); 
+        }
+    });
+    $.ajax({
+        url: 'functions/' + url + '.php',
+        type: 'post',
+        data: {
+            "searchFor": str,
+            "lat": lat,
+            "lng": lng,
+        },
+        success: function(response) { 
+            console.log(result);
+            $(result).html(response);
+        }
+    });
 }

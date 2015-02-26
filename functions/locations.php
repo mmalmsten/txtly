@@ -1,15 +1,10 @@
 <?php
-if (!isset($_SESSION['user'])) {
-    $_SESSION['error'] = 'What are you doing!? Stop that.';
-    header('Location: ../form.php');
-    die;
-}
 
 // Show only locations close to current location
-$latmin = ($_REQUEST["lat"] - (($_REQUEST["lat"]) / 1000));
-$latmax = ($_REQUEST["lat"] + (($_REQUEST["lat"]) / 1000));
-$lngmin = ($_REQUEST["lng"] - (($_REQUEST["lat"]) / 1000));
-$lngmax = ($_REQUEST["lng"] + (($_REQUEST["lat"]) / 1000));
+$latmin = ($_POST["lat"] - (($_POST["lat"]) / 1000));
+$latmax = ($_POST["lat"] + (($_POST["lat"]) / 1000));
+$lngmin = ($_POST["lng"] - (($_POST["lat"]) / 1000));
+$lngmax = ($_POST["lng"] + (($_POST["lat"]) / 1000));
 
 include 'link.php';
 $link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
@@ -26,7 +21,7 @@ while ($row = mysqli_fetch_array($postResult)) {
 
 mysqli_close($link);
 
-$searchFor = $_REQUEST["searchFor"];
+$searchFor = $_POST["searchFor"];
 $suggestion = "";
 
 if ($searchFor !== "") {
@@ -40,7 +35,7 @@ if ($searchFor !== "") {
 }
 
 if ($suggestion !== "") {
-	$suggestion = "<select name='addoldlocation' class='form-control' multiple>" . $suggestion . "</select>";
+	$suggestion = "<select name='addoldlocation' class='form-control addoldlocation' multiple>" . $suggestion . "</select>";
 	print $suggestion;
 }
 else{

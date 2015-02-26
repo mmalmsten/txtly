@@ -66,7 +66,7 @@ function showSearch($searchFor){
         showSearch("locations");
     ?>
     <div id="loadnextpage"></div>
-    <button class="btn btn-xs btn-primary" id="loadnow">Load more posts</button>
+    <button class="btn btn-lg btn-primary" id="loadnow">Load more posts</button>
     <div id="loadposts">Loading posts...</div>
   </div>
 

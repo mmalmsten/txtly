@@ -28,10 +28,24 @@ body {
 
 #loadposts{
   color: #FA6A71;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(238,238,238,0.8);
+  text-align: center;
+  padding-top: 25vh;
+  font-size: 5em;
+  text-transform: uppercase;
+  margin-top: -5px;
 }
 
 #loadnow{
   display: none;
+  width: 100%;
+  margin: 30px 0;
 }
 
 /* Texts, links, buttons, etc. */
@@ -129,10 +143,6 @@ h1, h2, h3, h4, h5 {
 .navbar-header img{
   height: 30px;
   margin-top: 15px;
-}
-
-#searchforresult{
-
 }
 
 #searchresults{
@@ -359,6 +369,15 @@ h1, h2, h3, h4, h5 {
 
 .newpost input{
   margin: 5px 0;
+}
+
+.addoldlocation{
+  margin-top: -6px;
+  margin-bottom: 5px;
+}
+
+#description{
+  margin-bottom: 5px;
 }
 
 .btn-clean{

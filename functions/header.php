@@ -9,16 +9,17 @@ if (!isset($_SESSION['user'])) {
 
 
 define("MYUSER", $_SESSION['user']);
+define("PAGENAME", basename($_SERVER['PHP_SELF']));
 
-if (isset($_GET["name"])) {
+if (PAGENAME == "profile.php") {
   define("CURRENT", $_GET["name"]);
   define("CURRENTGET", "name");
 }
-else if (isset($_GET["search"])) {
+else if (PAGENAME == "search.php") {
   define("CURRENT", $_GET["search"]);
   define("CURRENTGET", "search");
 }
-else if (isset($_GET["location"])) {
+else if (PAGENAME == "place.php") {
   define("CURRENT", $_GET["location"]);
   define("CURRENTGET", "location");
 }
@@ -26,8 +27,6 @@ else{
   define("CURRENT", "index");
   define("CURRENTGET", "index");
 }
-
-define("PAGENAME", basename($_SERVER['PHP_SELF']));
 
 require 'functions/info.php';
 require 'functions/newpost.php';
@@ -59,7 +58,7 @@ require 'functions/img.php';
 
    </head>
   <body>
-<div id="loadScript"></div>
+
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
       <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
@@ -80,8 +79,8 @@ require 'functions/img.php';
 
           </ul>
           <ul class="nav navbar-nav navbar-right">
-            <?php if (MYUSER == "madde"): ?>
-              <li><a href="adminuser.php">Admin page</a></li>
+            <?php if (userInfo(MYUSER, 'status') == "admin"): ?>
+              <li><a href="adminpage.php">Admin page</a></li>
             <?php endif ?>
             <li><a href="logout.php">Sign out</a></li>
           </ul>
@@ -133,8 +132,8 @@ require 'functions/img.php';
     <?php endif ?>
 
     <div class="wrapper">
-      <div class="col-sm-3">
-        <?php require 'sidebar.php'; ?>
-      </div>
-
-
+      <?php if (PAGENAME !== "adminpage.php"): ?>
+        <div class="col-sm-3">
+          <?php require 'sidebar.php'; ?>
+        </div>
+      <?php endif ?>
