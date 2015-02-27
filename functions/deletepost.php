@@ -1,9 +1,4 @@
 <?php
-if (!isset($_SESSION['user'])) {
-    $_SESSION['error'] = 'What are you doing!? Stop that.';
-    header('Location: ../form.php');
-    die;
-}
 
 // Drop row based on ID
 if (isset($_POST["drop"])){

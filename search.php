@@ -13,6 +13,17 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
   $searchresult = (preg_replace("/[^a-zA-Z0-9åäöÅÄÖ]/", "", $search));
 }
 
+// Show images in feed
+function showImage($postId, $dir) {
+  $showDir = "img/".$dir;
+  $dir = scandir("$showDir");
+  foreach ($dir as $key => $file){
+    if (strpos($file, $postId) !== false) {
+      return "$showDir/$file";
+    }
+  }
+}
+
 function showSearch($searchFor){
   include 'functions/link.php';
   $link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
@@ -26,32 +37,34 @@ function showSearch($searchFor){
   }
 
   if ($postResult) {
-    print '<table class="table post">';
-    while ($row = mysqli_fetch_assoc($postResult)) {
-      if ($searchFor == "users") {
-        $name = $row['user'];
-        $info = $row['name'];
-      ?>
-        <tr>
-          <td><?php img($name, "thumbnailimg") ?></td>
-          <td><a href="profile.php?name=<?php print $name ?>"><?php print $info ?></a></td>
-          <td><?php print $name ?></td>
-        </tr>
-      <?php
+    if ($postResult) {
+      print '<table class="table post">';
+      while ($row = mysqli_fetch_assoc($postResult)) {
+        if ($searchFor == "users") {
+          $name = $row['user'];
+          $info = $row['name'];
+        ?>
+          <tr>
+            <td><div class="thumbnailimg" style="background-image: url(<?php print showImage($name, "profileimg") ?>);"></div></td>
+            <td><a href="profile.php?name=<?php print $name ?>"><?php print $info ?></a></td>
+            <td><?php print $name ?></td>
+          </tr>
+        <?php
+        }
+        else if ($searchFor == "locations") {
+          $name = $row['name'];
+          $info = $row['city'].", ".$row['country']." | ".$row['description'];
+         ?>
+          <tr>
+            <td></td>
+            <td><a href="place.php?location=<?php print $name ?>"><?php print $name ?></a></td>
+            <td><?php print $info ?></td>
+          </tr>
+        <?php 
+        }
       }
-      else if ($searchFor == "locations") {
-        $name = $row['name'];
-        $info = $row['city'].", ".$row['country']." | ".$row['description'];
-       ?>
-        <tr>
-          <td></td>
-          <td><a href="place.php?location=<?php print $name ?>"><?php print $name ?></a></td>
-          <td><?php print $info ?></td>
-        </tr>
-    <?php 
+      print '</table>';
     }
-  }
-    print '</table>';
     mysqli_free_result($postResult);
   }
   mysqli_close($link);

@@ -1,10 +1,12 @@
 function loadPosts(pageNumber, pagename, current, currentget){
     $.ajaxSetup({
         beforeSend: function() {
+            console.log("Start");
             $('#loadnow').fadeOut(); 
             $('#loadposts').fadeIn(); 
         },
         complete: function() {
+            console.log("Stop");
             $('#loadposts').fadeOut(); 
             $('#loadnow').fadeIn(); 
         }
@@ -19,6 +21,7 @@ function loadPosts(pageNumber, pagename, current, currentget){
             "currentget": currentget,
         },
         success: function(response) { 
+            console.log("response");
             $("#loadnextpage").append(response);
         }
     });

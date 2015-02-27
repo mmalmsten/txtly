@@ -78,6 +78,14 @@ require 'functions/update.php';
 		} ?>
 	</table>
 	<table class="table post">
+		<tr>
+			<th>Name</th>
+			<th>Description</th>
+			<th class="hidden-xs">City</th>
+			<th class="hidden-xs">Country</th>
+			<th></th>
+			<th></th>
+		</tr>
 	<?php
 		$locationResult = mysqli_query($link, "SELECT * FROM locations ORDER BY name");
 
@@ -92,8 +100,8 @@ require 'functions/update.php';
 					<tr class="<?php print $removeThisId ?>row">
 						<td><input type="text" class="form-control" name="name" value="<?php print $row["name"] ?>" disabled></td>
 						<td><input type="text" class="form-control" name="description" value="<?php print $row["description"] ?>"></td>
-						<td><input type="text" class="form-control" name="city" value="<?php print $row["city"] ?>"></td>
-						<td><input type="text" class="form-control" name="country" value="<?php print $row["country"] ?>"></td>
+						<td><input type="text" class="form-control hidden-xs" name="city" value="<?php print $row["city"] ?>"></td>
+						<td><input type="text" class="form-control hidden-xs" name="country" value="<?php print $row["country"] ?>"></td>
 						<td><button type="submit" name="updateplace" id="update" value="<?php print $row["name"] ?>" class="btn-clean"><i class="glyphicon glyphicon-ok"></i></button></td>
 						<td><button type="submit" name="drop" value="<?php print $row["name"] ?>" class="btn-clean drop"><i class="glyphicon glyphicon-trash"></i></button></td>
 					</tr>

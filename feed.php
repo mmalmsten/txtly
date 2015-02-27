@@ -18,7 +18,8 @@ function showImage($postId, $dir) {
 	$showDir = "img/".$dir;
 	$dir = scandir("$showDir");
 	foreach ($dir as $key => $file){
-		if (strpos($file, $postId) !== false) {
+		$file1 = strstr($file, '.', true);
+		if ($file1 == $postId) {
 			return "$showDir/$file";
 		}
 	}
@@ -27,11 +28,9 @@ function showImage($postId, $dir) {
 // $pagenumber is used in infinite scroll
 function feed($pagenumber){
 	require 'functions/newpost.php';
-
 	require 'functions/link.php';
 	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
 	mysqli_connect_errno();
-
 
 	$query = "SELECT * FROM posts ";
 
