@@ -47,8 +47,8 @@ require 'functions/update.php';
 						<td><input type="text" class="form-control" name="user" value="<?php print $row["user"] ?>" disabled></td>
 						<td class="hidden-xs"><input type="text" class="form-control" name="name" value="<?php print $row["name"] ?>"></td>
 						<td class="hidden-xs"><input type="text" class="form-control" name="email" value="<?php print $row["email"] ?>"></td>
-						<td class="hidden-xs"><input type="text" class="form-control" placeholder="password" name="pass" value=""></td>
-						<td class="hidden-xs"><input type="text" class="form-control" placeholder="repeat password" name="pass1" value=""></td>
+						<td class="hidden-xs"><input type="password" class="form-control" placeholder="password" name="pass" value=""></td>
+						<td class="hidden-xs"><input type="password" class="form-control" placeholder="repeat password" name="pass1" value=""></td>
 						<?php if (userInfo(MYUSER, 'status') == "admin"): ?>
 							<td class="hidden-xs">
 								<select class="form-control" name="status">

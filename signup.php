@@ -1,4 +1,5 @@
 <?php
+require 'functions/link.php';
 
 $name = "";
 $email = "";

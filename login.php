@@ -1,6 +1,7 @@
 <?php
 session_start();
 
+require 'functions/link.php';
 $link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 mysqli_connect_errno();
 

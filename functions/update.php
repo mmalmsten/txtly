@@ -16,25 +16,26 @@ if (isset($_POST['updateuser'])) {
 	$name = $_POST['name'];
 	$email = $_POST['email'];
 	$status = $_POST['status'];
-	$pass = md5($_POST['pass']);
-	$pass1 = md5($_POST['pass1']);
+	$pass = $_POST['pass'];
+	$pass1 = $_POST['pass1'];
+	$pwd = md5($pass);
 	$active = $_POST['active'];
 
-	if ($pass == "" || $pass !== $pass1) {
+	if (strlen($pass) < 1 || $pass !== $pass1) {
 		$userResult = mysqli_query($link, "SELECT * FROM users WHERE user='$user'");
 		mysqli_connect_errno();
 
 		if ($userResult) {
 			while ($row = mysqli_fetch_assoc($userResult)) {
-				$pass = $row['pass'];
+				$pwd = $row['pass'];
 			}
 		}
-	  	$alert = "<div class='messages'>There was either no passwords submitted, or the submitted passwords does'nt seem to match...</div>";		
+	  	$alert = "<div class='messages'>There was either no passwords submitted, or the submitted passwords doesn't seem to match...</div>";		
 	}
 
 	if (filter_var($email, FILTER_VALIDATE_EMAIL)){
 	  $postResult=" UPDATE users 
-	                SET name='$name', email='$email', status='$status', pass='$pass', active='$active'
+	                SET name='$name', email='$email', status='$status', pass='$pwd', active='$active'
 	                WHERE user='$user'";
 	  if (!mysqli_query($link,$postResult)) {
 	    die('Error: ' . mysqli_error($link));
