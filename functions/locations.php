@@ -6,8 +6,9 @@ $latmax = ($_POST["lat"] + (($_POST["lat"]) / 1000));
 $lngmin = ($_POST["lng"] - (($_POST["lat"]) / 1000));
 $lngmax = ($_POST["lng"] + (($_POST["lat"]) / 1000));
 
-include 'link.php';
-$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+
+require 'link.php';
+$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 mysqli_connect_errno();
 
 $postResult = mysqli_query($link, "SELECT * FROM locations 

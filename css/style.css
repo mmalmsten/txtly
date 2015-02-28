@@ -12,9 +12,9 @@ body {
 
 .wrapper{
   margin: 0 auto;
-  padding-top: 120px;
   width: 100%;
   max-width: 1180px;
+  padding-top: 60px;
 }
 
 #loading{
@@ -161,7 +161,6 @@ h1, h2, h3, h4, h5 {
   background-position: center;
   padding-top: 0px;
   border-bottom: 1px solid #068E84;
-  margin-bottom: -160px;
   margin-top: 50px;
 }
 

@@ -18,8 +18,8 @@ function DeleteUserImages($dropThis, $directory) {
 if (isset($_POST["drop"])){
 	$dropThis = $_POST["drop"];
 
-	include 'link.php';
-	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+	
+	$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 	mysqli_connect_errno();
 
 	$sql="DELETE FROM users WHERE user='$dropThis'";

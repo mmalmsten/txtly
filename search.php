@@ -13,20 +13,22 @@ if ($_SERVER["REQUEST_METHOD"] == "GET"){
   $searchresult = (preg_replace("/[^a-zA-Z0-9åäöÅÄÖ]/", "", $search));
 }
 
-// Show images in feed
+// Show images in search result
 function showImage($postId, $dir) {
   $showDir = "img/".$dir;
-  $dir = scandir("$showDir");
-  foreach ($dir as $key => $file){
-    if (strpos($file, $postId) !== false) {
-      return "$showDir/$file";
+  $dirAndFile = $showDir."/sample.jpg";
+  $scanDir = scandir("$showDir");
+  foreach ($scanDir as $key => $file){
+    $file1 = strstr($file, '.', true);
+    if ($file1 == $postId) {
+      $dirAndFile = "$showDir/$file";
     }
   }
+  return $dirAndFile;
 }
 
 function showSearch($searchFor){
-  include 'functions/link.php';
-  $link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+  $link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
   mysqli_connect_errno();
 
   if ($searchFor == "users") {

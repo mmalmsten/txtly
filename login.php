@@ -1,8 +1,7 @@
 <?php
 session_start();
 
-include 'functions/link.php';
-$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 mysqli_connect_errno();
 
 $postResult = mysqli_query($link, "SELECT * FROM users");

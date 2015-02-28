@@ -7,7 +7,7 @@ if (!isset($_SESSION['user'])) {
     die;
 }
 
-
+require 'functions/link.php';
 define("MYUSER", $_SESSION['user']);
 define("PAGENAME", basename($_SERVER['PHP_SELF']));
 
@@ -76,7 +76,9 @@ require 'functions/img.php';
           <ul class="nav navbar-nav">
             <li><a href="index.php">Home</a></li>
             <li><a href="profile.php?name=<?php print MYUSER ?>">My profile</a></li>
-
+            <?php if (userInfo(MYUSER, 'status') !== "admin"): ?>
+              <li><a href="adminpage.php">Edit user</a></li>
+            <?php endif ?>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             <?php if (userInfo(MYUSER, 'status') == "admin"): ?>

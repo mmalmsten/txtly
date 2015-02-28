@@ -18,8 +18,8 @@
    		var pagename = "<?php print PAGENAME ?>";
   		var current = "<?php print CURRENT ?>";
   		var currentget = "<?php print CURRENTGET ?>";
-  		loadPosts(pageNumber, pagename, current, currentget);
 
+  		loadPosts(pageNumber, pagename, current, currentget);
   		$("#loadnow").click(function(){
   			pageNumber += 10;
   			loadPosts(pageNumber, pagename, current, currentget);

@@ -1,47 +1,55 @@
 <?php
 
-session_start();
-
 if (!isset($_SESSION['user'])) {
     $_SESSION['error'] = 'What are you doing!? Stop that.';
     header('Location: ../form.php');
     die;
 }
 
-define("MYUSER", $_SESSION['user']);
+/*define("MYUSER", $_SESSION['user']);
 define("PAGENAME", $_POST["pagename"]);
 define("CURRENT", $_POST["current"]);
-define("CURRENTGET", $_POST["currentget"]);
+define("CURRENTGET", $_POST["currentget"]);*/
 
-require 'info.php';
+//require 'info.php';
 
-include 'link.php';
-$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+
+$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 mysqli_connect_errno();
 
-if (isset($_POST["followuser"]) && $_POST["followuser"] == "follow") {
+if (isset($_POST["followUser"]) && $_POST["followUser"] == "follow") {
 	$sql="INSERT INTO follow (follower, follows)
 	VALUES ('".MYUSER."', '".CURRENT."')"; 
 
 	if (!mysqli_query($link,$sql)) {
-	  print "Sorry, something went wrong!<br>";
-	  die('Error: ' . mysqli_error($link));
+		print "Sorry, something went wrong!<br>";
+		die('Error: ' . mysqli_error($link));
 	}
 } 
-else if (isset($_POST["followuser"]) && $_POST["followuser"] == "unfollow") {
+else if (isset($_POST["followUser"]) && $_POST["followUser"] == "unfollow") {
 	$sql="DELETE FROM follow WHERE follower='".MYUSER."' AND follows='".CURRENT."'";
 
 	if (!mysqli_query($link,$sql)) {
-	  print "Sorry, something went wrong!<br>";
-	  die('Error: ' . mysqli_error($link));
+		print "Sorry, something went wrong!<br>";
+		die('Error: ' . mysqli_error($link));
+	}
+}
+
+$follow = "follow";
+
+$follows = mysqli_query($link, "SELECT * FROM follow WHERE follower='".MYUSER."' AND follows='".CURRENT."'");
+
+if ($follows) {
+	while ($row = mysqli_fetch_assoc($follows)) {
+		$follow = "unfollow";
 	}
 }
 
 mysqli_close($link);
 
 function follow($action) {
-	include 'link.php';
-	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+	
+	$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 	mysqli_connect_errno();
 
 	$someFollowers = "";
@@ -93,6 +101,11 @@ function follow($action) {
 
 <?php }
 
+if (CURRENT !== MYUSER): ?>
+	<form enctype="multipart/form-data" action="<?php echo PAGENAME ?>?<?php print CURRENTGET ?>=<?php print CURRENT ?>" method="post">
+		<input type='submit' class="btn btn-xs btn-primary btn-follow" id="followBtn" name="followUser" value="<?php print $follow ?>">
+	</form>
+<?php endif;
 follow("Followers");
 follow("Follows");
 

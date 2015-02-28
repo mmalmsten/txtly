@@ -8,6 +8,7 @@ if (!isset($_SESSION['user'])) {
     die;
 }
 
+require 'functions/link.php';
 define("MYUSER", $_SESSION['user']);
 define("PAGENAME", $_POST['pagename']);
 define("CURRENT", $_POST['current']);
@@ -16,20 +17,25 @@ define("CURRENTGET", $_POST['currentget']);
 // Show images in feed
 function showImage($postId, $dir) {
 	$showDir = "img/".$dir;
+	if ($dir == "profileimg") {
+  		$dirAndFile = $showDir."/sample.jpg";
+	}
 	$dir = scandir("$showDir");
 	foreach ($dir as $key => $file){
 		$file1 = strstr($file, '.', true);
 		if ($file1 == $postId) {
-			return "$showDir/$file";
+			$dirAndFile = "$showDir/$file";
 		}
+	}
+	if (isset($dirAndFile)) {
+		return $dirAndFile;
 	}
 }
 
 // $pagenumber is used in infinite scroll
 function feed($pagenumber){
 	require 'functions/newpost.php';
-	require 'functions/link.php';
-	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+	$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 	mysqli_connect_errno();
 
 	$query = "SELECT * FROM posts ";

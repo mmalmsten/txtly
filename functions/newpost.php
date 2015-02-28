@@ -10,8 +10,8 @@ $location = "";
 $postId = "";
 
 if (isset($_POST["newpost"])){
-	include 'link.php';
-	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+	
+	$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 	mysqli_connect_errno();
 
 	//Short links

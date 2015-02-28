@@ -9,8 +9,7 @@ $alert = "";
 $active = 1;
 
 if (isset($_POST['user'])) {
-  include 'functions/link.php';
-  $link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+  $link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
   mysqli_connect_errno();
 
   $name = (preg_replace("/[^a-zA-ZåäöÅÄÖ -]/", "", $_POST['name']));

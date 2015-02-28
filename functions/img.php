@@ -45,6 +45,7 @@ function img($user, $directory) {
   }
 
   $showDir = "img/".$directory;
+  $file = $showDir."/sample.jpg";
   $dir = scandir("$showDir");
   foreach ($dir as $key => $img){
     if (strpos($img, $user) !== false) {

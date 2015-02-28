@@ -6,8 +6,8 @@ if (!isset($_SESSION['user'])) {
     die;
 }
 
-  include 'link.php';
-  $link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+  
+  $link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
   mysqli_connect_errno();
 
 // Update user

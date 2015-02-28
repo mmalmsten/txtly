@@ -4,8 +4,8 @@
 if (isset($_POST["drop"])){
 	$id = $_POST["drop"];
 
-	include 'link.php';
-	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+	
+	$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 	mysqli_connect_errno();
 
 	$sql="DELETE FROM posts WHERE id='$id'";

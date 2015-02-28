@@ -8,8 +8,8 @@ if (!isset($_SESSION['user'])) {
 $content = preg_replace_callback('/(@(\w+))/',
 			function($userToName) {
 				$theUser = $userToName[2];
-				include 'link.php';
-				$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+				
+				$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 				mysqli_connect_errno();
 				$userResult = mysqli_query($link, "SELECT * FROM users WHERE user = '$theUser'");
 

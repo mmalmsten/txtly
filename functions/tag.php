@@ -5,8 +5,7 @@ if (!isset($_SESSION['user'])) {
     die;
 }
 
-	require 'link.php';
-	$link = mysqli_connect($tablehost, $tableuser, $tablepass, $tabletable);
+	$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 	mysqli_connect_errno();
 
 	$postResult = mysqli_query($link, "SELECT * FROM posts ORDER BY time");
