@@ -8,6 +8,7 @@ if (!isset($_SESSION['user'])) {
 ?>
 
   <div class="col-sm-9">
+  	<p>This page displays posts from users you're following. To find new users to follow, use the search field.</p>
     <div id="loadnextpage"></div>
     <button class="btn btn-lg btn-primary" id="loadnow">Load more posts</button>
     <div id="loadposts">Loading posts...</div>

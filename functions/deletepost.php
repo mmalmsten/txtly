@@ -4,7 +4,7 @@
 if (isset($_POST["drop"])){
 	$id = $_POST["drop"];
 
-	
+	require 'link.php';
 	$link = mysqli_connect(HOST, USERNAME, PASSWORD, DATABASE);
 	mysqli_connect_errno();
 
